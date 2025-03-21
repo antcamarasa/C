@@ -1,4 +1,8 @@
-# 1. Organisation des dossiers du projet
+## Table des Matières
+* [Organisation des dossiers](#organisation-des-dossiers-du-projet)
+* [Structure du projet](#structure-du-projet)
+
+# Organisation des dossiers du projet
 
 - `/bin` : Dossier pour les exécutables compilés
   - `main` : Programme principal
@@ -13,7 +17,7 @@
   - `explication_architecture_fichier.c` : Explications détaillées sur l'architecture du projet
 
 
-# 2. Structure du projet
+# Structure du projet
 
 ```c
 /mon_projet  
