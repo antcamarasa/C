@@ -13,7 +13,7 @@
   - `explication_architecture_fichier.c` : Explications détaillées sur l'architecture du projet
 
 
-# 2. Partie 1 : Structure du projet
+# 2. Structure du projet
 
 ```c
 /mon_projet  
