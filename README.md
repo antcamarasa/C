@@ -1,8 +1,9 @@
 ## Table des Matières
+* [Octal, Binary, Hexadecimals & More](#octal-binary-hexadeciaml-&-more)
 * [Organisation des dossiers](#organisation-des-dossiers-du-projet)
 * [Structure du projet](#structure-du-projet)
 	
-
+# Octal Binary Hexadeciaml & more
 # Organisation des dossiers du projet
 
 - `/bin` : Dossier pour les exécutables compilés
