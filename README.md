@@ -1,6 +1,7 @@
 ## Table des Matières
 * [Organisation des dossiers](#organisation-des-dossiers-du-projet)
 * [Structure du projet](#structure-du-projet)
+	
 
 # Organisation des dossiers du projet
 
@@ -40,7 +41,7 @@
 └── Makefile                 # Fichier pour automatiser la compilation
 ```
 
-## Contenu des fichiers `/src`
+## Contenu des fichiers src
 En C, chaque fonctionnalité du programme est généralement divisée en deux fichiers : un fichier .c et un fichier .h. 
 
 - Le fichier .c contient le code qui réalise l’action (la logique de la fonction).
