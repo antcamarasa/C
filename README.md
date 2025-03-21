@@ -1,9 +1,214 @@
 ## Table des Matières
 * [Octal, Binary, Hexadecimals & More](#octal-binary-hexadeciaml-&-more)
+* [Data Types](#data-types)
 * [Organisation des dossiers](#organisation-des-dossiers-du-projet)
 * [Structure du projet](#structure-du-projet)
 	
 # Octal Binary Hexadeciaml & more
+# Data types
+| Data Type                 | Size (bytes) | Range                                      | Format Specifier |
+|---------------------------|-------------|--------------------------------------------|------------------|
+| short int                 | 2           | -32,768 to 32,767                         | %hd              |
+| unsigned short int        | 2           | 0 to 65,535                               | %hu              |
+| unsigned int              | 4           | 0 to 4,294,967,295                        | %u               |
+| int                       | 4           | -2,147,483,648 to 2,147,483,647           | %d               |
+| long int                  | 4           | -2,147,483,648 to 2,147,483,647           | %ld              |
+| unsigned long int         | 4           | 0 to 4,294,967,295                        | %lu              |
+| long long int             | 8           | -(2^63) to (2^63)-1                       | %lld             |
+| unsigned long long int    | 8           | 0 to 18,446,744,073,709,551,615           | %llu             |
+| signed char               | 1           | -128 to 127                               | %c               |
+| unsigned char             | 1           | 0 to 255                                  | %c               |
+| float                     | 4           | 1.2E-38 to 3.4E+38                        | %f               |
+| double                    | 8           | 1.7E-308 to 1.7E+308                      | %lf              |
+| long double               | 16          | 3.4E-4932 to 1.1E+4932                    | %Lf              |
+
+
+## 1. short int
+- Taille : 2 octets (16 bits)
+- Plage de valeurs : -32,768 à 32,767
+- Format Specifier : %hd
+- Description :
+        Un entier signé stocké sur 16 bits.
+        Utilisé lorsque la plage de valeurs est limitée et que l'on souhaite économiser de la mémoire.
+        Les valeurs négatives sont représentées en complément à deux.
+
+## 2. unsigned short int
+- Taille : 2 octets (16 bits)
+- Plage de valeurs : 0 à 65,535
+- Format Specifier : %hu
+- Description :
+        Version non signée de short int, ce qui signifie qu'il ne peut stocker que des valeurs positives.
+        Permet d’étendre la plage de valeurs maximales disponibles en sacrifiant la possibilité de stocker des nombres négatifs.
+
+## 3. unsigned int
+- Taille : 4 octets (32 bits)
+- Plage de valeurs : 0 à 4,294,967,295
+- Format Specifier : %u
+- Description :
+        Entier non signé, stocké sur 32 bits.
+        Permet de doubler la plage de valeurs positives disponibles par rapport à int.
+        Utilisé lorsqu’on sait que la valeur ne sera jamais négative (exemple : tailles, nombres d’éléments, etc.).
+
+## 4. int
+- Taille : 4 octets (32 bits)
+- Plage de valeurs : -2,147,483,648 à 2,147,483,647
+- Format Specifier : %d
+- Description :
+    L’un des types de données les plus utilisés en C pour stocker des nombres entiers.
+    Représenté en complément à deux pour gérer les valeurs négatives.
+    La taille peut varier selon l’implémentation, mais en général, elle est de 4 octets.
+
+### Pourquoi utiliser unsigned int et/ou int
+
+### Signed vs Unsigned : Comment sont répartis les valeurs ?
+Quand tu as un type signed (avec signe), une partie des bits est utilisée pour représenter le signe (+ ou -), alors que dans un unsigned (sans signe), tous les bits servent à stocker des valeurs positives.
+
+| Type                        | Taille (bits) | Plage des valeurs                      |
+|-----------------------------|--------------|----------------------------------------|
+| `signed int` (4 octets)     | 32 bits      | -2 147 483 648 à 2 147 483 647        |
+| `unsigned int` (4 octets)   | 32 bits      | 0 à 4 294 967 295                     |
+
+
+📌 Observation : Un unsigned int permet d’aller deux fois plus loin en positif qu’un signed int, mais il ne permet pas d’avoir de nombres négatifs.
+
+### Pourquoi ? Explication en binaire !
+
+Prenons un exemple avec 4 bits pour simplifier :
+1) Signed int (2 bits pour les valeurs + 1 bit pour le signe)
+
+Avec 4 bits, on peut coder 16 valeurs (2⁴ = 16), mais en signed, on partage les valeurs entre positif et négatif :
+
+| Binaire | Décimal (Signed)  |
+|---------|------------------|
+| 0000    | 0                |
+| 0001    | 1                |
+| 0010    | 2                |
+| 0011    | 3                |
+| 0100    | 4                |
+| 0101    | 5                |
+| 0110    | 6                |
+| 0111    | 7                |
+| 1000    | -8 (bit de signe activé) |
+| 1001    | -7               |
+| 1010    | -6               |
+| 1011    | -5               |
+| 1100    | -4               |
+| 1101    | -3               |
+| 1110    | -2               |
+| 1111    | -1               |
+
+
+Plage de valeurs possibles : -8 à +7
+
+### 2) Unsigned int (tous les bits pour les valeurs)
+
+En unsigned, on n'a pas de signe, donc tous les 16 nombres possibles sont positifs :
+
+| Binaire | Décimal (Unsigned) |
+|---------|--------------------|
+| 0000    | 0                  |
+| 0001    | 1                  |
+| 0010    | 2                  |
+| 0011    | 3                  |
+| 0100    | 4                  |
+| 0101    | 5                  |
+| 0110    | 6                  |
+| 0111    | 7                  |
+| 1000    | 8                  |
+| 1001    | 9                  |
+| 1010    | 10                 |
+| 1011    | 11                 |
+| 1100    | 12                 |
+| 1101    | 13                 |
+| 1110    | 14                 |
+| 1111    | 15                 |
+
+
+## 5. long int
+- Taille : 4 octets (32 bits) (souvent 8 octets sur certains systèmes 64 bits)
+- Plage de valeurs : -2,147,483,648 à 2,147,483,647 (ou plus sur certains systèmes)
+- Format Specifier : %ld
+Description :
+        Similaire à int, mais peut parfois offrir une plage de valeurs plus grande selon l’architecture du système.
+        En général, sur les systèmes 64 bits, long int peut être stocké sur 8 octets, offrant une plage plus large.
+
+## 6. unsigned long int
+
+    Taille : 4 octets (32 bits) (ou 8 octets sur systèmes 64 bits)
+    Plage de valeurs : 0 à 4,294,967,295 (ou plus sur certains systèmes)
+    Format Specifier : %lu
+    Description :
+        Version non signée de long int, qui permet d’avoir une plus grande plage de valeurs positives.
+        Utilisé dans les situations où seules des valeurs positives sont nécessaires, comme pour des indices ou des tailles.
+
+
+## 7. long long int
+- Taille : 8 octets (64 bits)
+- Plage de valeurs : -(2^63) à (2^63)-1
+- Format Specifier : %lld
+Description :
+        Utilisé pour stocker des nombres entiers encore plus grands que long int.
+        Très utile pour des calculs nécessitant une très grande précision avec des nombres entiers.
+
+
+## 8. unsigned long long int
+- Taille : 8 octets (64 bits)
+- Plage de valeurs : 0 à 18,446,744,073,709,551,615
+- Format Specifier : %llu
+- Description :
+        Version non signée de long long int.
+        Permet de représenter des nombres très grands sans négatif, ce qui est utile pour des calculs scientifiques ou des indices de très grandes bases de données.
+
+## 9. signed char
+- Taille : 1 octet (8 bits)
+- Plage de valeurs : -128 à 127
+- Format Specifier : %c (mais aussi %hhd pour afficher la valeur numérique)
+- Description :
+        Stocke un caractère ASCII (8 bits).
+        Peut également être utilisé pour stocker de petits nombres entiers.
+
+## 10. unsigned char
+- Taille : 1 octet (8 bits)
+- Plage de valeurs : 0 à 255
+- Format Specifier : %c (ou %hhu pour la valeur numérique)
+    Description :
+        Similaire à signed char, mais ne peut pas stocker de valeurs négatives.
+        Souvent utilisé pour représenter des couleurs en format RGB (chaque canal variant de 0 à 255).
+
+## 11. float
+- Taille : 4 octets (32 bits)
+- Plage de valeurs : 1.2E-38 à 3.4E+38
+- Format Specifier : %f
+- Description :
+        Type de donnée en virgule flottante utilisé pour stocker des nombres décimaux.
+        Moins précis que double, mais prend moins de mémoire.
+        Suivant la norme IEEE 754, il utilise :
+            1 bit pour le signe,
+            8 bits pour l’exposant,
+            23 bits pour la mantisse.
+
+## 12. double
+- Taille : 8 octets (64 bits)
+- Plage de valeurs : 1.7E-308 à 1.7E+308
+- Format Specifier : %lf
+- Description :
+        Plus précis que float car il utilise plus de bits pour stocker les valeurs.
+        Suit également la norme IEEE 754, avec :
+            1 bit pour le signe,
+            11 bits pour l’exposant,
+            52 bits pour la mantisse.
+        Utilisé dans des calculs nécessitant une plus grande précision.
+
+## 13. long double
+- Taille : 16 octets (128 bits) (selon l’architecture)
+- Plage de valeurs : 3.4E-4932 à 1.1E+4932
+- Format Specifier : %Lf
+- Description :
+        Encore plus précis que double.
+        Sur certaines architectures, il occupe 16 octets et peut représenter des valeurs beaucoup plus grandes ou plus précises.
+        Très utilisé dans les calculs scientifiques et en ingénierie pour minimiser les erreurs d’arrondi.
+
+
 # Organisation des dossiers du projet
 
 - `/bin` : Dossier pour les exécutables compilés
