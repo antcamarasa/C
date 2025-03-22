@@ -523,6 +523,6 @@ int main(void) {
 ### Lancement du script pour créer un projet C de base 
 
 ```
-chmod +x create_project.
+chmod +x create_project.sh
 ./create_project
 ```
