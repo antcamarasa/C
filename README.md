@@ -1,11 +1,12 @@
 ## Table des Matières
 * [Octal, Binary, Hexadecimals & More](#octal-binary-hexadeciaml-&-more)
+* [Variables](#variables)
 * [Data Types](#data-types)
 * [Organisation des dossiers](#organisation-des-dossiers-du-projet)
 * [Structure du projet](#structure-du-projet)
 	
 # Octal Binary Hexadeciaml & more
-# Variable
+# Variables
 Structure en C :
 ```c
 1. Declaration
