@@ -1,6 +1,7 @@
 ## Table des Matières
 * [Octal, Binary, Hexadecimals & More](#octal-binary-hexadeciaml-&-more)
 * [Variables](#variables)
+	* [Reading input from user](#reading-input-from-user)
 * [Data Types](#data-types)
 * [Organisation des dossiers](#organisation-des-dossiers-du-projet)
 * [Structure du projet](#structure-du-projet)
@@ -16,6 +17,7 @@ Structure en C :
 nom = 10;
 ```
 
+## Reading input from user
 
 ### Organiser à l'intérieur des methodes 
 ```c
