@@ -5,6 +5,27 @@
 * [Structure du projet](#structure-du-projet)
 	
 # Octal Binary Hexadeciaml & more
+# Variable
+Structure en C :
+```c
+1. Declaration
+<type> <nom> ;
+
+2. Assignation
+nom = 10;
+```
+
+
+### Organiser à l'intérieur des methodes 
+```c
+// Définition de la fonction
+int addition(int a, int b) {
+    int somme;      // 1. Déclaration des variables
+    somme = a + b;  // 2. Assignation des variables
+    return somme;   // 3. Retour de la valeur
+}
+```
+
 # Data types
 | Data Type                 | Size (bytes) | Range                                      | Format Specifier |
 |---------------------------|-------------|--------------------------------------------|------------------|
