@@ -5,6 +5,7 @@
 * [Data Types](#data-types)
 * [Organisation des dossiers](#organisation-des-dossiers-du-projet)
 * [Structure du projet](#structure-du-projet)
+* [Notes](#notes)
 	
 # Octal Binary Hexadeciaml & more
 # Variables
@@ -18,6 +19,22 @@ nom = 10;
 ```
 
 ## Reading input from user
+
+En C il faut utiliser la fonction Scanf
+```c
+1. Declaration
+int grade 1;
+int grade 2;
+
+
+// %D = format specifier for integer
+// &grade1 = pointer vers grade 1;
+scanf(%d, &grade1);
+scanf(%d, &grade2);
+
+printf("Average = %d", (grade1+grade2/2); )
+
+```
 
 ### Organiser à l'intérieur des methodes 
 ```c
@@ -499,4 +516,13 @@ int main(void) {
     return 0;  // Fin du programme avec un statut de réussite
 }
 
+```
+
+## Notes
+
+### Lancement du script pour créer un projet C de base 
+
+```
+chmod +x create_project.
+./create_project
 ```
