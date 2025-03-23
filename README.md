@@ -2,6 +2,7 @@
 * [Octal, Binary, Hexadecimals & More](#octal-binary-hexadeciaml-&-more)
 * [Variables](#variables)
 	* [Reading input from user](#reading-input-from-user)
+ 	* [Casting](#casting) 
 * [Data Types](#data-types)
 * [Organisation des dossiers](#organisation-des-dossiers-du-projet)
 * [Structure du projet](#structure-du-projet)
@@ -45,6 +46,11 @@ int addition(int a, int b) {
     return somme;   // 3. Retour de la valeur
 }
 ```
+
+
+## Casting
+..
+
 
 # Data types
 | Data Type                 | Size (bytes) | Range                                      | Format Specifier |
