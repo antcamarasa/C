@@ -16,7 +16,7 @@
 * [Data Types](#data-types)
 * [Organisation des dossiers](#organisation-des-dossiers-du-projet)
 * [Structure du projet](#structure-du-projet)
-* [Notes](#notes)
+* [Script](#script)
 	
 # Octal Binary Hexadeciaml & more
 # Variables
@@ -656,10 +656,13 @@ int main(void) {
 
 ```
 
-## Notes
+## Script
 
 ### Lancement du script pour créer un projet C de base 
-
+Ajout à faire : 
+- Récupérer le nom du dossier créer est l'utiliser pour créer un fichier.c et .h, importer le .h dans main.c et nom_du_dossier.c
+- Faire la meme chose pour les tests.
+- Vérifier pour la compilation car probleme a chqaue fois.
 ```
 chmod +x create_project.sh
 ./create_project.sh
