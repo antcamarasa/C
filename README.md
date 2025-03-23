@@ -49,7 +49,129 @@ int addition(int a, int b) {
 
 
 ## Casting
-..
+
+Le casting (ou "conversion de type") en C est le processus de conversion d'une variable d'un type de donnée à un autre. Le casting est utile lorsque vous voulez forcer une valeur à être traitée comme un autre type, ce qui peut être nécessaire pour éviter des erreurs de type ou pour optimiser des calculs.
+
+Il existe deux types de casting en C :
+- Casting implicite (ou automatique) : Cela se fait automatiquement, selon les règles de promotion des types en C.
+- Casting explicite : C'est lorsque le programmeur indique explicitement la conversion d'un type à un autre.
+
+### 1. Casting implicite (automatique)
+
+Le casting implicite se produit lorsque le compilateur convertit automatiquement une valeur d'un type à un autre type plus large ou plus adapté, comme dans les calculs entre des entiers et des nombres à virgule flottante.
+Exemple de casting implicite :
+
+```c
+int main() {
+    int x = 5;
+    double y = 2.5;
+    double result;
+
+    // Implicit cast: int to double
+    result = x + y;
+
+    printf("Resultat: %.2f\n", result);  // 7.50
+    return 0;
+}
+```
+
+Ici, x est un entier, et y est un double. Le compilateur va automatiquement convertir x (int) en double avant de faire l'addition, car le type double peut contenir à la fois des entiers et des décimales.
+
+### 2. Casting explicite (ou "cast")
+
+Le casting explicite est utilisé lorsqu'on veut forcer une conversion de type qui ne serait pas réalisée automatiquement par le compilateur. Cela se fait à l'aide d'une opération de cast.
+Syntaxe du casting explicite :
+```c
+(type) expression
+```
+- type : le type vers lequel vous voulez convertir l'expression.
+- expression : la valeur ou la variable à convertir.
+
+#### Exemple de casting explicite 
+```c
+int main() {
+    double pi = 3.14159;
+    int integer_pi;
+
+    // Cast explicite : double to int
+    integer_pi = (int) pi;
+
+    printf("Valeur de pi (en int): %d\n", integer_pi);  // 3
+    return 0;
+}
+
+```
+
+Dans cet exemple, la valeur de pi (qui est un double) est convertie explicitement en int en utilisant (int) avant d'assigner la valeur à integer_pi. Cela supprime la partie décimale de pi.
+
+### 3. Problèmes fréquents avec le casting
+
+#### a. Troncature (Perte de données)
+
+Lorsqu'on convertit un type plus grand (par exemple, un double ou long) en un type plus petit (int, char), il peut y avoir une perte de données. Par exemple, si un nombre avec des décimales est converti en un entier, la partie après la virgule sera perdue.
+Exemple de troncature :
+```C
+#include <stdio.h>
+
+int main() {
+    double value = 123.456;
+    int truncated_value;
+
+    truncated_value = (int) value;  // Troncature, perte de la partie décimale
+
+    printf("Valeur après troncature: %d\n", truncated_value);  // 123
+    return 0;
+}
+```
+
+#### b. Dépassement de capacité (Overflow)
+
+Si vous convertissez un type plus grand vers un type plus petit et que la valeur dépasse la capacité du type de destination, cela peut entraîner un dépassement de capacité.
+Exemple de dépassement :
+
+```c
+#include <stdio.h>
+
+int main() {
+    long large_number = 1000000;
+    short small_number;
+
+    // Cast explicite (long vers short) peut entraîner un dépassement
+    small_number = (short) large_number;
+
+    printf("Valeur après conversion: %d\n", small_number);  // Dépassement, peut afficher un nombre incorrect
+    return 0;
+}
+```
+
+Le type short a une plage de valeurs plus petite que long. Si large_number est trop grand pour tenir dans un short, il y aura un dépassement.
+
+### 4. Types de cast courants en C
+#### a. Cast entre entiers
+Convertir un entier vers un autre entier ou vers un type à virgule flottante :
+
+```c
+int a = 5;
+float b = (float) a;  // Conversion de int vers float
+```
+
+#### b. Cast entre entiers et flottants
+Convertir un float ou un double en un int :
+```c
+float f = 10.75;
+int i = (int) f;  // Conversion de float vers int (perte des décimales)
+```
+
+#### c. Cast entre types plus grands et plus petits
+Lorsque vous travaillez avec des types de différentes tailles, vous pouvez être amené à les convertir, ce qui peut entraîner une perte de données.
+```c
+long l = 1234567890L;
+int i = (int) l;  // Conversion de long vers int, peut entraîner un dépassement (OverFlow)
+```
+
+Le casting en C est un outil puissant mais doit être utilisé avec soin. Il est essentiel de comprendre les types de données et leurs plages de valeurs afin d'éviter des erreurs comme la perte de données ou le dépassement de capacité.
+- Utilisez le casting implicite lorsque cela est possible, pour des conversions naturelles entre types compatibles.
+- Utilisez le casting explicite avec précaution, surtout lorsqu'il s'agit de conversions entre types de tailles différentes ou lorsqu'une troncature ou une perte de données peut se produire.
 
 
 # Data types
@@ -530,5 +652,5 @@ int main(void) {
 
 ```
 chmod +x create_project.sh
-./create_project
+./create_project.sh
 ```
