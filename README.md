@@ -369,8 +369,62 @@ Un tableau à 2 dimensions est un tableau de tableaux.
 
 📌 Exemple : Déclaration et affichage d’une matrice 2x3
 ```c
+// TODO : A creuser car pas compréhensible 
+#include <stdio.h>
+
+int main() {
+    int matrice[2][3] = { {1, 2, 3}, {4, 5, 6} };
+
+    for (int i = 0; i < 2; i++) {
+        for (int j = 0; j < 3; j++) {
+            printf("%d ", matrice[i][j]);
+        }
+        printf("\n");
+    }
+
+    return 0;
+}
 
 ```
+Représentation :
+```c
+1  2  3
+4  5  6
+// Chaque ligne est un tableau de 3 éléments.
+```
+
+### Passage d’un tableau en paramètre à une fonction
+En C, les tableaux sont toujours passés par adresse aux fonctions. 
+Donc l'utilisation de sizeof(tab) ne donnera pas la taille du tableau 
+
+📌 Exemple : Fonction qui affiche un tableau
+```c
+#include <stdio.h>
+
+void afficherTableau(int tab[], int taille) {
+    for (int i = 0; i < taille; i++) {
+        printf("%d ", tab[i]);
+    }
+    printf("\n");
+}
+
+int main() {
+    int valeurs[5] = {10, 20, 30, 40, 50};
+    afficherTableau(valeurs, 5);
+    return 0;
+}
+```
+
+#### 💡 Pourquoi ne pas utiliser sizeof(tab) dans la fonction ?
+Car un tableau est converti en pointeur lorsqu’il est passé à une fonction, donc sizeof(tab) ne donnera pas la taille du tableau.
+
+#### Exercice 
+Écris un programme qui :
+- Demande à l'utilisateur combien de nombres il veut stocker.
+- Alloue dynamiquement un tableau de cette taille.
+- Remplit ce tableau avec des valeurs entrées par l’utilisateur.
+- Affiche les valeurs.
+- Libère la mémoire.
 
 
 | Data Type                 | Size (bytes) | Range                                      | Format Specifier |
