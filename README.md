@@ -4,7 +4,7 @@
 	* [Reading input from user](#reading-input-from-user)
  	* [Casting](#casting)
 * [Structure de données](#structure-de-donnees)
-	* [Tableaux](#tableau)
+	* [Tableaux](#tableaux)
   	* [struct](#struct)
   	* [Listes Chaînées](#liste-chainees)
   	* [Piles & files](#piles-et-files)
