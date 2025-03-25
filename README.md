@@ -3,7 +3,6 @@
 * [Variables](#variables)
 	* [Reading input from user](#reading-input-from-user)
  	* [Casting](#casting)
-  	* [swap](#swap)
 * [Structure de données](#structure-de-donnees)
 	* [Tableaux](#tableau)
   	* [struct](#struct)
@@ -269,6 +268,109 @@ int main() {
 // 0x7ff7b42b425c
 // 0x7ff7b42b4260
 // 0x7ff7b42b4264
+```
+💡 On remarque que les adresses sont consécutives.
+
+### Tableaux dynamiques avec malloc
+En C, la taille des tableaux statiques (déclarés comme int tab[10]) ne peut pas être modifiée après compilation.
+Si l'on veut un tableau dynamique, on utilise malloc().
+
+📌 Exemple : Allocation dynamique d’un tableau de 5 entiers
+```c
+#include <stdio.h>
+#include <stdlib.h>
+
+int main() {
+    int *tableaux = malloc(5 * sizeof(int)); // Allocation dynamique
+
+    if (tableaux == NULL) { // Vérification de l'allocation mémoire
+        printf("Échec de l'allocation mémoire\n");
+        return 1; // Quitter avec une erreur
+    }
+
+    for (int i = 0; i < 5; i++) {
+        tableaux[i] = (i + 1) * 2;
+        printf("%d ", tableaux[i]);
+    }
+
+    printf("\n");
+
+    free(tableaux); // Libérer la mémoire allouée
+
+    return 0;
+}
+```
+- Ici, tableau est un pointeur (int *tableau), mais la mémoire allouée par malloc() correspond à un tableau dynamique de 5 entiers (puisque tu alloues 5 * sizeof(int) octets).
+- Même si tu n'utilises pas les crochets [], tu alloues de la mémoire pour plusieurs entiers. Tu traites donc ce pointeur comme un tableau dynamique (tableau qui peut être redimensionné, contrairement aux tableaux statiques). La mémoire est allouée de manière contiguë, comme un tableau, et tu peux y accéder via des indices, un peu comme un tableau classique.
+- Exemple d'accès à un élément : tableau[0], tableau[1], etc. Ce sont des accès à la mémoire allouée dynamiquement via malloc().
+
+
+On utilise
+```c
+free(tableaux)
+```
+Car malloc() réserve une zone mémoire hors de la pile, il faut donc libérer cette mémoire pour éviter les fuites.
+
+#### Pourquoi malloc réserve une zone mémoire hors de la pile et pourquoi faut-il libérer la mémoire ? 
+En C, la mémoire d'un programme est divisée en plusieurs segments :
+
+#### 1. La pile (Stack)
+- Utilisée pour stocker les variables locales et les appels de fonctions.
+- Elle fonctionne comme une "pile" (dernier entré, premier sorti - LIFO).
+- La mémoire est automatiquement libérée lorsqu'une fonction se termine.
+
+```c
+void fonction() {
+    int x = 10; // Stocké dans la pile
+} // "x" est automatiquement supprimé à la fin de la fonction
+```
+
+#### 2. Le tas (heap)
+- Utilisé pour l’allocation dynamique de mémoire (malloc, calloc, realloc).
+- La mémoire allouée ici n'est pas libérée automatiquement, le programmeur doit le faire avec free().
+- Permet de gérer des structures de données de taille inconnue à la compilation.
+
+```c
+int *ptr = malloc(sizeof(int)); // Réservé dans le tas
+*ptr = 42; // Utilisation de la mémoire
+free(ptr); // Libération explicite nécessaire !
+```
+
+#### Pourquoi malloc() n'utilise pas la pile ?
+- Les variables sur la pile sont limitées en taille et en durée de vie
+- La pile est restreinte en mémoire (quelques Mo). Si tu essaies d'y stocker un gros tableau, tu risques un dépassement de pile (stack overflow).
+- Tout ce qui est alloué dans la pile disparaît une fois la fonction terminée.
+- Le tas permet de gérer des structures dynamiques
+- Un programme peut allouer et libérer de la mémoire selon ses besoins, contrairement à la pile où tout doit être préalablement défini.
+
+#### Pourquoi faut-il libérer la mémoire allouée par malloc() ?
+- Éviter les fuites de mémoire : Si tu alloues de la mémoire mais que tu ne la libères pas, elle reste inutilisée jusqu'à la fin du programme, ce qui peut provoquer une consommation excessive de mémoire.
+- Améliorer la gestion mémoire : Un programme bien écrit libère la mémoire inutilisée pour la rendre disponible à d'autres parties du programme.
+- Empêcher des crashs ou ralentissements : Trop de mémoire non libérée peut ralentir un programme ou le faire planter sur des systèmes avec peu de mémoire.
+
+Exemple de fuite mémoire :
+```c
+void fuite() {
+    int *p = malloc(10 * sizeof(int)); // Alloue un tableau de 10 entiers
+    p[0] = 42; // Utilisation de la mémoire
+
+    // Pas de free(p) -> Fuite mémoire !    
+}
+
+```
+
+
+
+### Tableau a plusieurs dimensions
+En C, il est possible de créer des tableaux multidimensionnels.
+
+#### Tableaux à 2 dimensions (matrices)
+
+Un tableau à 2 dimensions est un tableau de tableaux.
+
+📌 Exemple : Déclaration et affichage d’une matrice 2x3
+```c
+
 ```
 
 
