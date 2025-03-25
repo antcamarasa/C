@@ -184,8 +184,94 @@ Le casting en C est un outil puissant mais doit être utilisé avec soin. Il est
 - Utilisez le casting implicite lorsque cela est possible, pour des conversions naturelles entre types compatibles.
 - Utilisez le casting explicite avec précaution, surtout lorsqu'il s'agit de conversions entre types de tailles différentes ou lorsqu'une troncature ou une perte de données peut se produire.
 
-
 # Data types
+
+## Tableaux en C
+
+Les tableaux sont l’une des structures de données les plus utilisées en langage C. Ils permettent de stocker plusieurs valeurs du même type sous un seul nom et d’y accéder via un indice.
+
+### 1.Déclaration d'un tableau 
+Un tableau (array) est une collection contiguë d’éléments en mémoire.
+```c
+type nom_tableau[taille];
+int nombres[5]; // Tableau de 5 entiers
+```
+Ici, nombres peut stock 5 valeurs du type int.
+
+### Initialisation d’un tableau
+Il est possible d’initialiser un tableau au moment de sa déclaration :
+```c
+int nombres[5] = {10, 20, 30, 40, 50};
+
+// Ou bien sans spécifier la taille, C le fera de lui même.
+int nombres[] = {10, 20, 30, 40, 50}; // Tableau de taille 5
+
+// Attention, si on initialise partiellement un tableau, les valeurs non spécifiées seront mises à 0.
+int nombres[5] = {1, 2}; // nombres[2], nombres[3] et nombres[4] seront 0
+```
+
+### Accès aux éléments d'un tableau
+Chaque élément du tableau est accessible grâce à son indice, qui commence toujours à 0 en C.
+```c
+#include <stdio.h>
+
+int main() {
+    int nombres[3] = {5, 10, 15};
+
+    // Affichage des valeurs
+    printf("Premier élément : %d\n", nombres[0]); // 5
+    printf("Deuxième élément : %d\n", nombres[1]); // 10
+
+    // Modification d’un élément
+    nombres[2] = 20; // L'ancien 15 devient 20
+
+    printf("Troisième élément après modification : %d\n", nombres[2]); // 20
+    
+    return 0;
+}
+```
+
+### Parcourir un tableau avec une boucle
+Il est courant d'utiliser une boucle for pour parcourir un tableau.
+
+```c
+#include <stdio.h>
+
+int main() {
+    int nombres[5] = {10, 20, 30, 40, 50};
+
+    int taille_tableau = sizeof(nombres) / sizeof(nombres[0]);
+    // sizeof(nombres) Taille totale du tableau en octets : 20
+    // Taille d'un élément en octets : 4	
+
+    for (int i = 0; i < taille_tableau; i++) {
+        printf("Element %d : %d\n", i, nombres[i]);
+    }
+
+    return 0;
+}
+```
+
+### Tableaux et mémoire
+En mémoire, un tableau est stocké de manière contiguë. Chaque élément occupe un espace fixe en fonction de son type.
+```c
+#include <stdio.h>
+
+int main() {
+    int nombres[3] = {10, 20, 30};
+
+    for (int i = 0; i < 3; i++) {
+        printf("Adresse de nombres[%d] : %p\n", i, &nombres[i]);
+    }
+
+    return 0;
+}
+// 0x7ff7b42b425c
+// 0x7ff7b42b4260
+// 0x7ff7b42b4264
+```
+
+
 | Data Type                 | Size (bytes) | Range                                      | Format Specifier |
 |---------------------------|-------------|--------------------------------------------|------------------|
 | short int                 | 2           | -32,768 to 32,767                         | %hd              |
