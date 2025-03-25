@@ -12,6 +12,8 @@
   	* [Tables de hashage](#tables-de-hashage)
   	* [Set](#set)
   	* [Tas](#tas)
+* [Pointeurs](#pointeurs)
+* [Gestion de la mémoire](#gestion-de-la-memoire)
 * [Data Types](#data-types)
 * [Organisation des dossiers](#organisation-des-dossiers-du-projet)
 * [Structure du projet](#structure-du-projet)
@@ -425,6 +427,158 @@ Car un tableau est converti en pointeur lorsqu’il est passé à une fonction, 
 - Remplit ce tableau avec des valeurs entrées par l’utilisateur.
 - Affiche les valeurs.
 - Libère la mémoire.
+
+# Gestion de la mmemoire
+## Malloc
+malloc() est utilisé pour allouer dynamiquement un bloc de mémoire sur le tas.
+Syntaxe :
+```c
+void *malloc(size_t taille);
+```
+- Size_t taille : le nombre d'octets à allouer.
+- Renvoie un pointeur vers la première adresse du bloc mémoire alloué.
+- Si l'allocation échoue (manque de mémoire), malloc() renvoie NULL.
+- Le contenu de la mémoire allouée n'est pas initialisé (elle peut contenir des valeurs aléatoires).
+
+```c
+int *tableau = malloc(5 * sizeof(int)); // Alloue un tableau de 5 entiers
+
+if (tableau == NULL) {
+    printf("Allocation échouée\n");
+    return 1; // Sortie du programme
+}
+
+// Remplir le tableau
+for (int i = 0; i < 5; i++) {
+    tableau[i] = i * 2;
+}
+
+free(tableau); // Libérer la mémoire après utilisation
+```
+
+📌 Problème : La mémoire allouée n'est pas initialisée, donc elle peut contenir des valeurs indéterminées.
+
+## Calloc (Clear allocation)
+calloc() fonctionne comme malloc(), mais il initialise la mémoire à zéro.
+Syntaxe : 
+```c
+
+```
+- n : nombre d'éléments à allouer.
+- taille : taille de chaque élément en octets.
+- Renvoie un pointeur vers la mémoire allouée, initialisée à zéro.
+
+#### Différences avec malloc() :
+✅ Initialise la mémoire à zéro.
+❌ Plus lent que malloc(), car il remplit la mémoire avec des 0.
+
+Exemple :
+```c
+int *tableau = calloc(5, sizeof(int)); // Alloue et initialise un tableau de 5 entiers à 0
+
+if (tableau == NULL) {
+    printf("Allocation échouée\n");
+    return 1;
+}
+
+// Afficher les valeurs (toutes initialisées à 0)
+for (int i = 0; i < 5; i++) {
+    printf("%d ", tableau[i]); // Affiche : 0 0 0 0 0
+}
+
+free(tableau); // Libérer la mémoire
+```
+- malloc() ne fait que réserver la mémoire, mais laisse les anciennes valeurs (potentiellement aléatoires).
+- calloc() réserve ET initialise la mémoire à 0.
+
+## Realloc (réallocation)
+realloc() est utilisé pour redimensionner un bloc de mémoire alloué précédemment par malloc() ou calloc().
+
+Syntaxe :
+```c
+void *realloc(void *ptr, size_t nouvelle_taille);
+```
+- ptr : pointeur vers la mémoire déjà allouée.
+- nouvelle_taille : nouvelle taille en octets.
+- Si ptr == NULL, realloc() se comporte comme malloc(nouvelle_taille).
+- Si nouvelle_taille == 0, realloc() libère la mémoire et retourne NULL.
+- Peut déplacer la mémoire si l'espace adjacent n'est pas disponible.
+
+```c
+int *tableau = malloc(3 * sizeof(int)); // Alloue un tableau de 3 entiers
+
+if (tableau == NULL) {
+    printf("Allocation échouée\n");
+    return 1;
+}
+
+// Initialisation
+for (int i = 0; i < 3; i++) {
+    tableau[i] = i + 1; // 1, 2, 3
+}
+
+// Agrandir le tableau à 6 éléments
+tableau = realloc(tableau, 6 * sizeof(int));
+
+if (tableau == NULL) {
+    printf("Reallocation échouée\n");
+    return 1;
+}
+
+// Initialisation des nouvelles valeurs
+for (int i = 3; i < 6; i++) {
+    tableau[i] = (i + 1) * 2; // 8, 10, 12
+}
+
+// Affichage
+for (int i = 0; i < 6; i++) {
+    printf("%d ", tableau[i]); // Affiche : 1 2 3 8 10 12
+}
+
+free(tableau);
+```
+📌 À noter :
+- realloc() peut changer l'adresse mémoire si l'espace contigu est insuffisant.
+- Il copie les anciennes valeurs dans le nouvel emplacement si la mémoire est déplacée.
+
+## Free (Libération de mémoire)
+free() est utilisé pour libérer la mémoire allouée dynamiquement.
+
+Syntaxe :
+
+```c
+void free(void *ptr);
+```
+- ptr : pointeur vers un bloc mémoire alloué par malloc(), calloc() ou realloc().
+- Après free(ptr), ptr devient invalide.
+- Ne remet pas à zéro le pointeur ! Il faut donc éviter d'accéder à ptr après un free().
+
+Exemple : 
+```c
+int *tableau = malloc(5 * sizeof(int));
+
+if (tableau == NULL) {
+    printf("Allocation échouée\n");
+    return 1;
+}
+
+// Faire quelque chose avec le tableau...
+
+free(tableau); // Libération de la mémoire
+tableau = NULL; // Bonne pratique : éviter l'accès à une mémoire libérée
+```
+📌 Pourquoi mettre tableau = NULL après free() ?
+- Un accès à tableau après free() provoquerait un comportement indéfini (segmentation fault).
+- Mettre NULL permet d'éviter un accès accidentel à une mémoire libérée.
+
+⚠️ Bonnes pratiques à retenir
+- ✔ Toujours vérifier si malloc(), calloc(), ou realloc() retourne NULL avant d'utiliser la mémoire allouée.
+- ✔ Libérer la mémoire avec free() une fois qu'elle n'est plus nécessaire.
+- ✔ Mettre NULL au pointeur après free() pour éviter des erreurs d’accès mémoire.
+- ✔ Utiliser calloc() si on veut une mémoire déjà initialisée à 0.
+- ✔ Faire attention avec realloc(), car l'adresse mémoire peut changer ! Toujours affecter le résultat à la même variable.
+
+# Data type
 
 
 | Data Type                 | Size (bytes) | Range                                      | Format Specifier |
