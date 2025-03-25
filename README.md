@@ -186,7 +186,7 @@ Le casting en C est un outil puissant mais doit être utilisé avec soin. Il est
 
 # Data types
 
-## Tableaux en C
+## Tableaux
 
 Les tableaux sont l’une des structures de données les plus utilisées en langage C. Ils permettent de stocker plusieurs valeurs du même type sous un seul nom et d’y accéder via un indice.
 
