@@ -301,15 +301,14 @@ int main() {
 }
 ```
 - Ici, tableau est un pointeur (int *tableau), mais la mémoire allouée par malloc() correspond à un tableau dynamique de 5 entiers (puisque tu alloues 5 * sizeof(int) octets).
-- Même si tu n'utilises pas les crochets [], tu alloues de la mémoire pour plusieurs entiers. Tu traites donc ce pointeur comme un tableau dynamique (tableau qui peut être redimensionné, contrairement aux tableaux statiques). La mémoire est allouée de manière contiguë, comme un tableau, et tu peux y accéder via des indices, un peu comme un tableau classique.
+- Même si tu n'utilises pas les crochets [], tu alloues de la mémoire pour plusieurs entiers. Tu traites donc ce pointeur comme un tableau dynamique (tableau qui peut être redimensionné, contrairement aux tableaux statiques).
+- La mémoire est allouée de manière contiguë, comme un tableau, et tu peux y accéder via des indices, un peu comme un tableau classique.
 - Exemple d'accès à un élément : tableau[0], tableau[1], etc. Ce sont des accès à la mémoire allouée dynamiquement via malloc().
-
-
-On utilise
+  
 ```c
 free(tableaux)
+// Car malloc() réserve une zone mémoire hors de la pile, il faut donc libérer cette mémoire pour éviter les fuites.
 ```
-Car malloc() réserve une zone mémoire hors de la pile, il faut donc libérer cette mémoire pour éviter les fuites.
 
 #### Pourquoi malloc réserve une zone mémoire hors de la pile et pourquoi faut-il libérer la mémoire ? 
 En C, la mémoire d'un programme est divisée en plusieurs segments :
