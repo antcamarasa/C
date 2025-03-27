@@ -1,5 +1,7 @@
 ## Table des Matières
 * [Octal, Binary, Hexadecimals & More](#octal-binary-hexadeciaml-&-more)
+* [C Strucuture d'un programme](#c-structure-programme)
+* [Strings](#strings)
 * [Variables](#variables)
 	* [Reading input from user](#reading-input-from-user)
  	* [Casting](#casting)
@@ -20,6 +22,238 @@
 * [Script](#script)
 	
 # Octal Binary Hexadeciaml & more
+# C structure programme 
+
+Le plus simple programme en C est : 
+```c
+int main() {
+    return 0;
+}
+```
+
+- Une fonction nommée `main` est toujours le point d'entrée d'un programme en C (contrairement à Python, qui commence au début du fichier).
+- `int` est le type de retour de la fonction et signifie "entier". Comme c'est la fonction principale, la valeur de retour est le code de sortie du programme. 0 signifie succès, tout autre chiffre signifie échec.
+    - Vous trouverez beaucoup d'abréviations en C car 1) les programmeurs sont paresseux, et 2) cela comptait autrefois combien de bytes votre code source faisait.
+- Le crochet ouvrant `{` marque le début du corps de la fonction (C ignore les espaces blancs, donc l'indentation est juste pour le style, pas pour la syntaxe).
+- `return 0` renvoie la valeur 0 (un entier) de la fonction. Encore une fois, c'est le code de sortie car c'est la fonction principale.
+    - 0 représente "rien de mal ne s'est produit" comme valeur de retour.
+- Le vilain `;` à la fin de `return 0;` est nécessaire en C pour terminer les instructions.
+- Le crochet fermant `}` marque la fin du corps de la fonction.
+
+### Printf
+
+- Cela semble très différent si vous venez de Python, mais l'affichage en C se fait avec une fonction appelée `printf` provenant de la bibliothèque `stdio.h` (entrée/sortie standard) avec de nombreuses règles de formatage étranges.
+- Pour l'utiliser, vous devez inclure `#include` en haut de votre fichier.
+```c
+#include <stdio.h>
+printf("Hello, world!\n");
+```
+
+- `\n` : il est nécessaire d'imprimer un caractère de nouvelle ligne (et de vider le tampon dans le navigateur), ce que fait automatiquement `print()` en Python.
+- Si vous vous demandez, le `f` dans `printf` signifie "print formatted" (impression formatée).
+
+
+# Strings
+En C, les chaînes de caractères sont représentées par des tableaux de caractères terminés par un caractère spécial \0, appelé le caractère nul. C’est ainsi que C identifie la fin de la chaîne.
+En C, une chaîne de caractères est en fait un tableau de caractères (de type char[]). Voici quelques exemples de déclarations :
+```c
+char str1[10];       // Déclare un tableau de 10 caractères (inclus le caractère nul '\0')
+char str2[] = "Hello"; // Le compilateur détermine automatiquement la taille (ici, 6 caractères : 'H', 'e', 'l', 'l', 'o', '\0')
+```
+
+## 2. Initialisation d’une chaîne de caractères
+- Utiliser une chaîne littérale : Les chaînes de caractères en C sont souvent initialisées à l’aide de chaînes littérales, comme montré dans l'exemple précédent. Cela permet de directement attribuer une chaîne à un tableau de char.
+
+```c
+char str[] = "Hello, World!";
+```
+
+- Avec une taille spécifique : Vous pouvez également déclarer un tableau de caractères avec une taille fixe. Par exemple, si vous savez que votre chaîne ne dépassera pas 10 caractères, vous pouvez faire :
+```c
+char str[10] = "Hello"; // La chaîne "Hello" et le caractère nul '\0' sont stockés
+str[0] = 'H'
+str[1] = 'e'
+str[2] = 'l'
+str[3] = 'l'
+str[4] = 'o'
+str[5] = '\0' // Caractère nul qui termine la chaîne
+str[6 ..9] seront des valeurs aléatoires car on a déclaré un tableau de char de 10 éléments, représentant une string.
+```
+
+## 3. Manipulation des chaînes de caractères
+### a. Accéder aux caractères individuels
+
+Comme toute autre variable de type tableau en C, chaque caractère dans une chaîne peut être accédé par son index :
+```c
+char str[] = "Hello";
+printf("%c\n", str[0]); // Affiche 'H'
+printf("%c\n", str[1]); // Affiche 'e'
+```
+
+### b. Modifier une chaîne de caractères
+Les chaînes en C peuvent être modifiées, mais seulement si elles ont été déclarées comme tableau de caractères (et non comme const ou pointeur vers une chaîne littérale).
+```c
+char str[] = "Hello";
+str[0] = 'J'; // Modifie le premier caractère en 'J'
+printf("%s\n", str); // Affiche "Jello"
+```
+
+### c. Affichage d’une chaîne de caractères
+Pour afficher une chaîne de caractères en C, vous utilisez la fonction printf() avec le spécificateur %s.
+```c
+char str[] = "Hello, World!";
+printf("%s\n", str); // Affiche "Hello, World!"
+```
+
+### d. Taille d’une chaîne de caractères
+La fonction strlen() de la bibliothèque <string.h> retourne la longueur d’une chaîne de caractères, sans compter le caractère nul \0.
+```c
+#include <string.h>
+
+char str[] = "Hello";
+printf("La longueur de la chaîne est : %lu\n", strlen(str)); // Affiche 5
+```
+
+## 5. Fonctions de manipulation des chaînes de caractères
+
+Voici quelques fonctions très utiles de la bibliothèque <string.h> pour manipuler les chaînes :
+- strcpy(destination, source) : Copie la chaîne source dans la chaîne destination.
+```c
+char src[] = "Hello";
+char dest[10];
+strcpy(dest, src); // Copie "Hello" dans dest
+printf("%s\n", dest); // Affiche "Hello"
+```
+
+- strcat(destination, source) : Concatène (ajoute) la chaîne source à la fin de la chaîne destination.
+```c
+char str1[20] = "Hello";
+char str2[] = " World!";
+strcat(str1, str2); // Concatène " World!" à "Hello"
+printf("%s\n", str1); // Affiche "Hello World!"
+```
+
+- strcmp(str1, str2) : Compare deux chaînes de caractères. Retourne 0 si elles sont égales, un nombre négatif si str1 est inférieure à str2, et un nombre positif si str1 est supérieure à str2.
+```c
+char str1[] = "Hello";
+char str2[] = "Hello";
+int result = strcmp(str1, str2); // Retourne 0 (elles sont égales)
+```
+
+- strchr(str, character) : Trouve la première occurrence d’un caractère dans une chaîne de caractères. Retourne un pointeur vers ce caractère ou NULL si le caractère n’est pas trouvé.
+```c
+char str[] = "Hello";
+char *ptr = strchr(str, 'e');
+if (ptr) {
+    printf("Trouvé : %c\n", *ptr); // Affiche 'e'
+}
+```
+
+## Pointeurs et chaînes de caractères
+Les pointeurs et les chaînes de caractères sont des concepts clés en langage C, et leur interaction est essentielle pour bien comprendre la gestion des chaînes de caractères dans ce langage. Les pointeurs en C permettent de manipuler directement les adresses mémoire, ce qui les rend particulièrement utiles lorsqu'il s'agit de travailler avec des chaînes de caractères, car une chaîne est en réalité un tableau de caractères et peut être manipulée via un pointeur.
+
+### 1. Les chaînes de caractères en C
+En C, une chaîne de caractères est un tableau de caractères qui se termine toujours par un caractère nul ('\0'), ce qui permet au programme de savoir où la chaîne se termine. Par exemple, la chaîne "Hello" est en fait un tableau de caractères contenant cinq lettres, suivies d'un caractère nul, soit :
+```c
+'H' 'e' 'l' 'l' 'o' '\0'
+```
+Cela signifie qu'une chaîne de caractères en C est toujours un tableau de caractères, et c'est ce tableau que nous manipulons lorsqu'on travaille avec des chaînes.
+
+### 2. Pointeurs vers des chaînes de caractères
+
+Un pointeur vers une chaîne de caractères est simplement un pointeur qui pointe vers le premier caractère d'une chaîne. En d'autres termes, au lieu de stocker la chaîne entière dans une variable, nous stockons une référence à la première case mémoire où la chaîne commence.
+Exemple de déclaration d'un pointeur vers une chaîne de caractères :
+```c
+#include <stdio.h>
+
+int main() {
+    char *str = "Hello";  // Pointeur vers une chaîne littérale
+
+    printf("%s\n", str);  // Affiche "Hello"
+
+    return 0;
+}
+```
+- char *str = "Hello"; : Ici, str est un pointeur qui pointe vers le premier caractère de la chaîne littérale "Hello". En C, les chaînes littérales sont en fait des tableaux de caractères constants, et le pointeur str pointe vers la première adresse de mémoire de ce tableau.
+- printf("%s\n", str); : Lorsque nous passons le pointeur str à printf, la fonction affiche la chaîne à l'adresse pointée par str.
+
+Fonctionnement interne :
+"Hello" est une chaîne littérale stockée dans une zone mémoire en lecture seule. Le pointeur str pointe donc vers le début de cette zone mémoire. Cela signifie que str contient l'adresse de la première case mémoire où 'H' est stocké, et printf sait comment afficher la chaîne en suivant la séquence de caractères jusqu'à ce qu'il rencontre le caractère nul '\0'.
+
+### 3. Modifications avec les pointeurs
+
+Le fait qu'un pointeur pointe vers une chaîne de caractères permet de manipuler la chaîne de différentes manières, mais il est important de noter que cela dépend de la façon dont la chaîne a été déclarée.
+
+Exemple : Modification d'un tableau de caractères
+Si tu as une chaîne déclarée comme un tableau de caractères, tu peux modifier directement ses caractères, car la chaîne elle-même est mutable.
+```c
+#include <stdio.h>
+
+int main() {
+    char str[] = "Hello";  // Tableau de caractères
+
+    printf("Avant modification : %s\n", str); // Affiche "Hello"
+    
+    str[0] = 'h';  // Modification du premier caractère
+    printf("Après modification : %s\n", str);  // Affiche "hello"
+
+    return 0;
+}
+```
+
+- char str[] = "Hello"; : Ici, str est un tableau de caractères, ce qui signifie que tu peux directement modifier le contenu des caractères.
+- str[0] = 'h'; : Modifie le premier caractère du tableau, ce qui change "Hello" en "hello".
+
+### Exemple : Pointeur vers une chaîne littérale
+Si tu utilises un pointeur vers une chaîne littérale, tu ne peux pas modifier la chaîne, car les chaînes littérales sont stockées en mémoire en lecture seule.
+
+Cela signifie que la mémoire où la chaîne de caractères est stockée ne peut pas être modifiée une fois que la chaîne est définie. Examinons de plus près comment cela fonctionne et pourquoi c'est important.
+
+### Pourquoi en lecture seule ?
+En C, les chaînes littérales sont placées dans une zone de mémoire qui est en lecture seule.
+Cette zone est utilisée pour optimiser la gestion des chaînes, car une chaîne littérale, une fois définie, n'a généralement pas besoin d'être modifiée. Elle est donc stockée dans une section mémoire protégée pour éviter toute modification accidentelle. Cela permet également de partager la même instance de la chaîne dans le programme, économisant ainsi de la mémoire.
+- Caractéristique clé : La chaîne "Hello" est immuable, c'est-à-dire qu'elle ne peut pas être modifiée pendant l'exécution du programme.
+- Stockage en mémoire : Les chaînes littérales sont souvent stockées dans une zone spéciale, comme .rodata (read-only data), qui est une section protégée en mémoire, en lecture seule. Cela empêche l'utilisateur de modifier la chaîne.
+
+### Fonctionnement interne : Où est stockée la chaîne ?
+Lorsque tu écris :
+```c
+char *str = "Hello";
+```
+Voici ce qui se passe en coulisses :
+- Le compilateur crée la chaîne littérale "Hello" dans une zone en lecture seule de la mémoire.
+- Il place cette chaîne dans la mémoire et associe un pointeur str à l'adresse de la première case mémoire de la chaîne, c'est-à-dire à l'adresse où le caractère 'H' est stocké.
+- Si on considère que l'adresse mémoire où "Hello" commence est 0x1000, alors str contiendra l'adresse 0x1000, qui est l'emplacement de 'H'.
+- Le caractère 'H' est suivi par 'e', 'l', 'l', 'o' et se termine par le caractère nul '\0', qui marque la fin de la chaîne en C. La mémoire est donc organisée ainsi (en supposant que les adresses commencent à 0x1000) :
+```c
+Adresse       Valeur
+0x1000         'H'
+0x1001         'e'
+0x1002         'l'
+0x1003         'l'
+0x1004         'o'
+0x1005         '\0'
+```
+- Lorsque tu appelles printf("%s", str);, printf utilise le pointeur str pour accéder à la première case mémoire de la chaîne et continue à afficher chaque caractère jusqu'à ce qu'il rencontre le caractère nul '\0' qui marque la fin de la chaîne.
+
+### Pourquoi est-ce important que la chaîne soit en lecture seule ?
+Sécurité mémoire : Si tu essaies de modifier une chaîne littérale en mémoire (par exemple, avec str[0] = 'J';), cela provoquera une erreur de segmentation (segfault), car les chaînes littérales sont stockées dans une zone mémoire en lecture seule.
+```c
+char *str = "Hello";
+str[0] = 'J'; // Cela entraînera un segfault car la chaîne est en lecture seule.
+```
+- Optimisation : En plaçant les chaînes littérales dans une zone en lecture seule, le compilateur peut optimiser l'utilisation de la mémoire, car il peut partager des chaînes identiques entre différentes parties du programme sans avoir besoin de les dupliquer.
+- Protection contre les erreurs : Empêcher la modification accidentelle des chaînes littérales améliore la robustesse du programme. Cela évite des bugs difficiles à repérer où une chaîne de caractères pourrait être modifiée par erreur.
+
+### 5. Pointeurs vers des chaînes littérales
+Les chaînes de caractères peuvent être manipulées à l'aide de pointeurs. Un pointeur vers une chaîne littérale est un pointeur constant qui pointe vers une zone mémoire en lecture seule. Par conséquent, tu peux modifier un pointeur pour qu'il pointe vers une autre chaîne, mais tu ne peux pas modifier le contenu de la chaîne elle-même.
+```c
+char *str = "Hello";  // Pointeur vers une chaîne littérale en mémoire
+str = "World";        // Tu peux changer où pointe le pointeur, mais pas la chaîne originale
+
+// Attention ce code entrainera une perte des données ainsi qu'une fuite mémoire
+// avant ré assignation libérer la mémoire avec free() et réaffecter.
+```
 
 # Variables
 Structure en C :
