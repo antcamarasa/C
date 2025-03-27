@@ -206,6 +206,22 @@ int main() {
 
 ### Exemple : Pointeur vers une chaîne littérale
 Si tu utilises un pointeur vers une chaîne littérale, tu ne peux pas modifier la chaîne, car les chaînes littérales sont stockées en mémoire en lecture seule.
+```c
+#include <stdio.h>
+
+int main() {
+    char *str = "Hello";  // Pointeur vers une chaîne littérale
+
+    printf("Avant modification : %s\n", str);
+    
+    // str[0] = 'h';  // Impossible de modifier une chaîne littérale, cela entraînera un comportement indéfini
+
+    printf("Après modification : %s\n", str);  // Affiche toujours "Hello"
+
+    return 0;
+}
+```
+str[0] = 'h'; : Si tu essaies de modifier une chaîne littérale, comme ici, cela entraînera un comportement indéfini (souvent un segmentation fault)..
 
 Cela signifie que la mémoire où la chaîne de caractères est stockée ne peut pas être modifiée une fois que la chaîne est définie. Examinons de plus près comment cela fonctionne et pourquoi c'est important.
 
@@ -254,6 +270,74 @@ str = "World";        // Tu peux changer où pointe le pointeur, mais pas la cha
 // Attention ce code entrainera une perte des données ainsi qu'une fuite mémoire
 // avant ré assignation libérer la mémoire avec free() et réaffecter.
 ```
+
+## 4. Manipulation de chaînes avec des pointeurs
+
+Les pointeurs permettent de manipuler les chaînes de manière plus flexible, comme dans les exemples suivants :
+
+### Accès aux caractères via des pointeurs
+
+Un pointeur peut être utilisé pour parcourir chaque caractère de la chaîne et effectuer des opérations sur chaque caractère.
+```c
+#include <stdio.h>
+
+int main() {
+    char str[] = "Hello";
+    char *ptr = str;  // Pointeur sur la première case du tableau
+
+    // Utilisation du pointeur pour parcourir la chaîne
+    while (*ptr != '\0') {
+        printf("%c ", *ptr);  // Affiche chaque caractère
+        ptr++;  // Déplace le pointeur vers le caractère suivant
+    }
+
+    printf("\n");
+
+    return 0;
+}
+```
+- char *ptr = str; : Ici, le pointeur ptr pointe vers le début du tableau str.
+- *ptr : L'expression *ptr donne le caractère auquel ptr pointe.
+- ptr++ : Cette ligne déplace le pointeur vers le caractère suivant dans la chaîne.
+- Condition *ptr != '\0' : Le processus continue tant que le caractère pointé par ptr n'est pas le caractère nul '\0', ce qui marque la fin de la chaîne.
+
+## 5. Passage de chaînes de caractères aux fonctions avec des pointeurs
+
+Les chaînes de caractères sont souvent passées aux fonctions via des pointeurs pour économiser de la mémoire, car elles peuvent être grandes. Voici un exemple :
+
+```c
+#include <stdio.h>
+
+void print_string(char *str) {
+    printf("%s\n", str);  // Affiche la chaîne pointée par str
+}
+
+int main() {
+    char str[] = "Hello, World!";
+    print_string(str);  // Passer le tableau de caractères à la fonction
+
+    return 0;
+}
+```
+- char *str : Dans la fonction print_string, str est un pointeur vers une chaîne de caractères. Lorsque tu passes str à la fonction, le pointeur est copié, et la fonction peut accéder directement aux caractères de la chaîne.
+
+## 6. Utilisation des pointeurs avec strlen et d'autres fonctions de la bibliothèque C
+
+La bibliothèque standard C fournit de nombreuses fonctions utiles pour travailler avec des chaînes de caractères. Par exemple, strlen retourne la longueur d'une chaîne, et il fonctionne avec des pointeurs.
+```c
+#include <stdio.h>
+#include <string.h>  // Pour strlen
+
+int main() {
+    char str[] = "Hello, World!";
+    
+    printf("Longueur de la chaîne : %lu\n", strlen(str));  // Affiche 13
+    
+    return 0;
+}
+```
+- strlen(str) : Cette fonction prend un pointeur vers une chaîne et retourne sa longueur (le nombre de caractères avant le caractère nul).
+
 
 # Variables
 Structure en C :
