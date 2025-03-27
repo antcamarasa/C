@@ -503,6 +503,27 @@ Le casting en C est un outil puissant mais doit être utilisé avec soin. Il est
 - Utilisez le casting implicite lorsque cela est possible, pour des conversions naturelles entre types compatibles.
 - Utilisez le casting explicite avec précaution, surtout lorsqu'il s'agit de conversions entre types de tailles différentes ou lorsqu'une troncature ou une perte de données peut se produire.
 
+#### a. Convertir un nombre en string
+En C, voici plusieurs façons de convertir un int en string :
+- Utiliser sprintf : Convertir un entier en une chaîne stockée dans un tableau de caractères.
+- Utiliser itoa (non standard, disponible sur certaines implémentations comme MSVC).
+- Utiliser snprintf : Similaire à sprintf, mais plus sûr pour éviter les dépassements de mémoire.
+- Diviser manuellement le nombre et remplir un tableau de caractères en extrayant chaque chiffre (utile si on veut un contrôle total sans utiliser de bibliothèque).
+
+```c
+sprintf(buffer, format, valeurs...);
+```
+- buffer est un tableau de caractères où sera stockée la chaîne résultante.
+- format est une chaîne de formatage (comme dans printf).
+- valeurs... représente les valeurs à insérer dans la chaîne formatée.
+
+```c
+int nombre = 531;
+char buffer[10];  // Assurez-vous que le buffer est assez grand
+sprintf(buffer, "%d", nombre);
+```
+
+
 # Data types
 
 ## Tableaux
