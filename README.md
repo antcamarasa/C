@@ -917,6 +917,56 @@ tableau = NULL; // Bonne pratique : éviter l'accès à une mémoire libérée
 - ✔ Utiliser calloc() si on veut une mémoire déjà initialisée à 0.
 - ✔ Faire attention avec realloc(), car l'adresse mémoire peut changer ! Toujours affecter le résultat à la même variable.
 
+# Struct
+Une struct (structure) en C permet de regrouper plusieurs variables sous un même type. C'est un moyen d'organiser des données associées dans un seul bloc mémoire.
+💡 Exemple simple :
+Si tu veux gérer un point en 2D, tu pourrais avoir :
+- Un x
+- Un y
+➡️ Plutôt que d'utiliser deux variables séparées, une struct du nom de Point peut les regrouper.
+```c
+#include <stdio.h>
+
+// Définition de la struct Point
+struct Point {
+    int x;
+    int y;
+};
+
+int main() {
+    struct Point p1 = {10, 20}; // Création et initialisation d'un point
+
+    printf("Coordonnées du point : (%d, %d)\n", p1.x, p1.y);
+    return 0;
+}
+```
+
+# Retour multiple 
+Le retour multiple de valeurs via return est impossible dans C car cette instruction ne permet de retourner qu'une seule valeur. 
+
+## 📌 Solutions pour retourner plusieurs valeurs :
+
+Il existe plusieurs méthodes pour contourner cette limitation et retourner plusieurs valeurs dans une fonction :
+
+## 1. Utiliser des paramètres de sortie avec des pointeurs (méthode la plus courante)
+Tu peux passer des pointeurs vers les variables qui doivent contenir les résultats, et la fonction modifiera directement ces variables.
+```c
+#include <stdio.h>
+
+void update_value(int* number) {
+    *number = *number * 2;  // On dé-référence pour modifier la valeur à l'adresse mémoire
+}
+
+int main() {
+    int num = 5;
+    update_value(&num);  // Passer l'adresse de num
+    printf("Num après update_value : %d\n", num);  // Affiche 10
+    return 0;
+}
+```
+- Ici, la fonction update_value prend un pointeur vers un entier (int* number). En utilisant *number, on accède à la valeur de num dans main et on peut la modifier directement. Le résultat affiché sera 10, car la valeur de num a été modifiée par référence.
+
+
 # Data type
 
 
