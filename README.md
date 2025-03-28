@@ -767,6 +767,55 @@ Car un tableau est converti en pointeur lorsqu’il est passé à une fonction, 
 - Affiche les valeurs.
 - Libère la mémoire.
 
+# Pointeurs
+Les * en C ont deux significations principales, et c’est là que la confusion vient souvent. Je vais t’expliquer ligne par ligne en détaillant ce qu’il se passe avec * et & pour que ce soit limpide.
+
+## 🔹 1. Déclaration d'un pointeur
+```c
+int* number;
+```
+Ici, le * indique que number est un pointeur vers un entier.
+👉 Cela signifie que number stocke une adresse mémoire, et non une valeur directe.
+
+Par exemple :
+```c
+int x = 5;
+int* ptr = &x;
+```
+- ptr est un pointeur qui contient l'adresse de x.
+- &x signifie "donne-moi l'adresse de x", qu'on stocke dans ptr.
+
+## 🔹 2. Dé-référencement d'un pointeur (* pour accéder à la valeur)
+```c
+*number = *number * 2;
+```
+
+```c
+*number = quelque_chose;
+// "Va à l'adresse contenue dans number et mets-y cette nouvelle valeur."
+// On ne stocke pas une adresse ici, on stocke une valeur à l'endroit où pointe number.
+```
+
+Ensuite, *number * 2 → Lire la valeur avant de la modifier
+```c
+*number = *number * 2;
+```
+La partie *number * 2 est évaluée en premier :
+- Dé-référence number pour obtenir la valeur stockée à son adresse.
+- Multiplie cette valeur par 2.
+- Stocke le résultat à la même adresse.
+
+## 🔹 Synthèse des rôles de `*` et `&`
+
+| Symbole       | Signification                                   |
+|--------------|-----------------------------------------------|
+| `int* ptr;`  | `ptr` est un pointeur vers un `int` (stocke une adresse) |
+| `ptr = &x;`  | `ptr` stocke l'adresse de `x`              |
+| `*ptr`       | Accède/modifie la valeur à l’adresse pointée |
+| `&x`         | Donne l'adresse de `x`                      |
+
+
+
 # Gestion de la mmemoire
 ## Malloc
 malloc() est utilisé pour allouer dynamiquement un bloc de mémoire sur le tas.
