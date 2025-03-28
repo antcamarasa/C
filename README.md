@@ -805,6 +805,13 @@ La partie *number * 2 est évaluée en premier :
 - Multiplie cette valeur par 2.
 - Stocke le résultat à la même adresse.
 
+## Lorsqu'il est utilisé dans une déclaration de variable
+Lorsqu'il est utilisé dans une déclaration de variable, comme int* nom_de_argument, cela signifie que la variable nom_de_argument est un pointeur vers un entier. Un pointeur est une variable qui stocke une adresse mémoire et non une valeur directe.
+
+En C, les arguments sont passés par valeur par défaut, ce qui signifie que la fonction travaille avec une copie de la variable. Si tu veux que la fonction modifie la valeur d'une variable dans la fonction appelante, tu dois lui passer un pointeur (c'est-à-dire l'adresse de la variable).
+
+En utilisant des pointeurs, la fonction get_unique_number peut modifier directement les valeurs des variables centaines, dizaines, et unites dans main, car elle travaille avec leurs adresses mémoire, et non une copie de leurs valeurs.
+
 ## 🔹 Synthèse des rôles de `*` et `&`
 
 | Symbole       | Signification                                   |
