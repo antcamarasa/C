@@ -24,11 +24,53 @@
 	
 # Octal Binary Hexadeciaml & more
 
-### 🚀 Projets
-#### Coder en C, la calculatrice Apple version programmeur : 
+## 🚀 Projets : Coder en C, la calculatrice Apple version programmeur : 
 1. Comprendre comment elle est implémenter ansi que toutes les fonctions : ASCII, Unicode, Binaire, 8(bytes) - 10(Decimal) - 16(hexadecimal)
-2. Operateur => XOR, AND, OR, NOR, NOT, <<, >>, NEG, x << Y, x >>Y, mod, rol, RoR, flip8, flip16, (, ). 
+2. Operateur => XOR, AND, OR, NOR, NOT, <<, >>, NEG, x << Y, x >>Y, mod, rol, RoR, flip8, flip16, (, ).
 
+### XOR (^) : Effectue un OU exclusif bit à bit. Résulte en 1 si les bits sont différents.
+- Ex : 5 ^ 3 (101 ^ 011 → 110, soit 6).
+
+### AND (&) : Effectue un ET bit à bit. Résulte en 1 si les deux bits sont 1.
+- Ex : 5 & 3 (101 & 011 → 001, soit 1).
+
+### OR (|) : Effectue un OU bit à bit. Résulte en 1 si au moins un des bits est 1.
+- Ex : 5 | 3 (101 | 011 → 111, soit 7).
+
+### NOR : Pas d'opérateur direct en C, mais c'est ~(A | B). Résulte en 1 seulement si les deux bits sont 0.
+- Ex : 5 NOR 3 (~(101 | 011) → ~111 → 000, soit 0).
+
+### NOT (~) : Inverse tous les bits d'un nombre (complément à 1)
+- Ex : ~5 (~00000101 → 11111010 en 8 bits, soit -6 en complément à 2).
+
+### << (décalage gauche) : Décale les bits vers la gauche, multipliant par 2^n.
+- Ex : 5 << 1 (00000101 << 1 → 00001010, soit 10).
+
+### >> (décalage droite) : Décale les bits vers la droite, divisant par 2^n.
+- Ex : 5 >> 1 (00000101 >> 1 → 00000010, soit 2).
+
+### NEG : Négation en complément à 2 (-x = ~x + 1).
+- Ex : NEG 5 (~5 + 1 → -5).
+
+### x << Y : Décale x de Y bits vers la gauche (x * 2^Y).
+
+### x >> Y : Décale x de Y bits vers la droite (x / 2^Y).
+
+### mod (%) : Reste de la division entière.
+- Ex : 5 % 3 → 2.
+
+### rol (rotate left) : Rotation circulaire des bits vers la gauche.
+- Ex : ROL(10011010, 2) → 01101010.
+
+### ror (rotate right) : Rotation circulaire des bits vers la droite.
+- Ex : ROR(10011010, 2) → 10100110.
+
+### flip8 : Inverse les bits d’un octet (8 bits).
+- Ex : flip8(10110011) → 11001101.
+
+### flip16 : Inverse les bits d’un mot de 16 bits.
+
+### ( et ) : Parenthèses pour regrouper des expressions et prioriser les opérations.
 
 ## Bitwise Magic
 ### 💡 Les opérateurs bitwise en C
