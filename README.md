@@ -5,6 +5,7 @@
 * [Variables](#variables)
 	* [Reading input from user](#reading-input-from-user)
  	* [Casting](#casting)
+* [Control flow] (#control-flow) 
 * [Structure de données](#structure-de-donnees)
 	* [Tableaux](#tableaux)
   	* [struct](#struct)
@@ -22,6 +23,207 @@
 * [Script](#script)
 	
 # Octal Binary Hexadeciaml & more
+
+## Bitwise Magic
+### 💡 Les opérateurs bitwise en C
+En C, les opérateurs bitwise permettent d’effectuer des opérations directement sur les bits d’un nombre.
+Ils sont souvent utilisés pour :
+- Optimiser la mémoire (stockage compact de données)
+- Manipuler les flags et les permissions
+- Accélérer certains calculs en remplaçant des multiplications/divisions
+- Interagir avec du matériel bas niveau (ports, registres, etc.)
+
+### 1️⃣ Opérateur AND &
+📌 Fonctionnement :
+Effectue une conjonction bit à bit (1 si les deux bits sont 1, sinon 0).
+Exemple : Filtrer des bits spécifiques
+```c
+int a = 0b1101;  // 13 en décimal
+int b = 0b1011;  // 11 en décimal
+//      0b1001  
+int result = a & b;
+
+printf("%d\n", result);  // ➝ 9 (0b1001)
+```
+A quoi bin faire cela ? 
+
+### 2️⃣ Opérateur OR |
+📌 Fonctionnement :
+Effectue une disjonction bit à bit (1 si au moins un des bits est 1).
+Exemple : Activer un bit
+```c
+int a = 0b1101;  // 13
+int b = 0b1011;  // 11
+int result = a | b;
+printf("%d\n", result);  // ➝ 15 (0b1111)
+```
+💡 Cas d’usage :
+✅ Activer un bit sans toucher aux autres → x |= (1 << n);
+✅ Combiner des permissions / flags
+🔹 Lien avec les exercices : Utilisé pour activer un bit (Exercice 7).
+
+### 3️⃣ Opérateur XOR ^
+📌 Fonctionnement :
+Effectue un OU exclusif : 1 si les bits sont différents, 0 s’ils sont identiques.
+Exemple : Inverser un bit sans affecter les autres
+```c
+int a = 0b1101;  // 13
+int b = 0b1011;  // 11
+int result = a ^ b;
+printf("%d\n", result);  // ➝ 6 (0b0110)
+```
+💡 Cas d’usage :
+✅ Inverser un bit : x ^= (1 << n);
+✅ Trouver l’unique élément d’un tableau (a ^ a = 0, voir Exercice 8)
+✅ Détecter des changements d’état
+
+### 4️⃣ Opérateur NOT ~
+📌 Fonctionnement :
+Inverse tous les bits (complément à un).
+Exemple : Inverser tous les bits d’un entier
+```c
+int a = 0b1101;  // 13
+int result = ~a;
+printf("%d\n", result);  // ➝ -14 (complément à deux)
+```
+💡 Cas d’usage :
+✅ Créer des masques inversés → x & ~mask
+✅ Complément à deux pour représenter un nombre négatif
+
+###5️⃣ Décalages de bits << et >>
+
+Ces opérateurs permettent de décaler les bits vers la gauche ou la droite, ce qui revient à multiplier ou diviser par une puissance de 2.
+
+#### Opérateur de décalage gauche <<
+Multiplie par 2^n en décalant les bits à gauche.
+```c
+int a = 5;  // 0b0101
+int result = a << 2;  // Décalage de 2 bits vers la gauche
+printf("%d\n", result);  // ➝ 20 (0b10100)
+```
+💡 Cas d’usage :
+✅ Multiplie rapidement par une puissance de 2
+✅ Encodage compact de données (ex: stockage de couleurs en mémoire)
+
+
+####Opérateur de décalage droite >>
+Divise par 2^n en décalant les bits à droite.
+```c
+int a = 20;  // 0b10100
+int result = a >> 2;
+printf("%d\n", result);  // ➝ 5 (0b0101)
+```
+💡 Attention : Pour les nombres négatifs, un décalage logique >> peut propager le bit de signe (1 reste 1, dépend de l’implémentation).
+
+
+### Exercices :
+1️⃣ Affichage d’un entier en binaire (Niveau Facile)
+📌 Objectif : Écrire une fonction print_binary(int n) qui affiche un nombre entier en binaire sur 32 bits.
+✅ Contraintes :
+- Afficher un espace tous les 4 bits pour la lisibilité.
+- Accepter les nombres négatifs (utiliser le complément à deux).
+```c
+print_binary(42);  // ➝ 0000 0000 0000 0000 0000 0000 0010 1010
+print_binary(-5);  // ➝ 1111 1111 1111 1111 1111 1111 1111 1011
+```
+
+2️⃣ Conversion entre bases (Niveau Facile)
+📌 Objectif : Écrire un programme qui convertit un nombre en binaire, octal et hexadécimal.
+✅ Exemple :
+```c
+Entrée : 42
+Sortie :
+Binaire :  0b101010
+Octal :    052
+Hexa :     0x2A
+```
+💡 Indication : Utiliser %o, %x et la fonction print_binary().
+
+3️⃣ Vérifier si un nombre est une puissance de 2 (Niveau Intermédiaire)
+📌 Objectif : Écrire une fonction qui retourne 1 si un nombre est une puissance de 2, sinon 0.
+✅ Propriétés :
+- Une puissance de 2 a un seul bit à 1 (2, 4, 8, 16...).
+- Utiliser x & (x - 1) == 0 pour la vérification.
+```c
+is_power_of_two(8);  // ➝ 1 (true)
+is_power_of_two(10); // ➝ 0 (false)
+```
+
+4️⃣ Compter le nombre de bits à 1 (Niveau Intermédiaire)
+📌 Objectif : Implémenter count_bits(int n) qui retourne le nombre de bits activés à 1 dans un entier.
+💡 Astuce : Utiliser n & (n - 1) pour éliminer le dernier bit à 1 à chaque itération.
+
+🔹 Exemple :
+```c
+count_bits(42);  // ➝ 3   (101010)
+count_bits(15);  // ➝ 4   (1111)
+```
+
+5️⃣ Inverser les bits d'un entier (Niveau Intermédiaire)
+📌 Objectif : Écrire une fonction reverse_bits(int n) qui inverse les bits d'un nombre.
+🔹 Exemple :
+```c
+Entrée : 0b00000000000000000000000000001010 (10)
+Sortie  : 0b01010000000000000000000000000000 (inverse)
+```
+
+6️⃣ Extraire un bit spécifique d’un entier (Niveau Intermédiaire)
+📌 Objectif : Écrire une fonction get_bit(int n, int pos) qui retourne la valeur du bit (0 ou 1) à la position donnée (de droite à gauche).
+🔹 Exemple :
+```c
+get_bit(42, 1);  // ➝ 1 (42 = 101010, bit à la position 1 = 1)
+get_bit(42, 3);  // ➝ 0 (42 = 101010, bit à la position 3 = 0)
+```
+
+7️⃣ Activer et désactiver un bit (Niveau Intermédiaire)
+📌 Objectif : Implémenter deux fonctions :
+- set_bit(int n, int pos) → Active le bit à pos
+- clear_bit(int n, int pos) → Désactive le bit à pos
+
+🔹 Exemple :
+```c
+set_bit(42, 1);   // ➝ 0b101010 (42) -> Aucun changement
+set_bit(42, 2);   // ➝ 0b101110 (46)
+clear_bit(42, 1); // ➝ 0b101000 (40)
+```
+
+8️⃣ Trouver l’entier unique dans un tableau (Niveau Avancé)
+📌 Objectif : Dans un tableau où chaque nombre apparaît deux fois sauf un seul, trouver l’unique sans utiliser de tableau supplémentaire.
+💡 Astuce : Utiliser XOR (^) car a ^ a = 0.
+🔹 Exemple :
+```c
+int arr[] = {1, 3, 5, 3, 1};
+find_unique(arr, 5);  // ➝ 5
+```
+
+9️⃣ Vérifier si deux entiers ont des bits opposés (Niveau Avancé)
+📌 Objectif : Implémenter une fonction has_opposite_signs(int x, int y) qui retourne 1 si x et y ont des signes opposés, sinon 0.
+💡 Astuce : En complément à deux, les nombres négatifs ont le MSB à 1.
+Solution rapide : x ^ y → Si le bit de signe change (x ^ y < 0), les signes sont opposés.
+🔹 Exemple :
+```c
+has_opposite_signs(5, -10);  // ➝ 1 (true)
+has_opposite_signs(-3, -8);  // ➝ 0 (false)
+```
+
+🔟 Convertir une adresse IP en entier 32 bits (Niveau Avancé)
+📌 Objectif : Écrire une fonction ip_to_int(const char *ip) qui convertit une IP en un entier 32 bits.
+🔹 Exemple :
+```c
+ip_to_int("192.168.1.1");  // ➝ 3232235777
+```
+💡 Indice :
+- 192.168.1.1 = (192 << 24) | (168 << 16) | (1 << 8) | 1
+- Utiliser sscanf(ip, "%d.%d.%d.%d", &a, &b, &c, &d)  
+
+#### 🚀 Challenge Bonus : Implémenter un mini BitMap
+📌 Objectif : Implémenter un BitMap permettant d’allouer un tableau compact pour stocker des bits.
+✅ Fonctions :
+- void set_bit(uint8_t *bitmap, int pos);
+- void clear_bit(uint8_t *bitmap, int pos);
+- int get_bit(uint8_t *bitmap, int pos);
+
+
 # C structure programme 
 
 Le plus simple programme en C est : 
@@ -522,6 +724,9 @@ int nombre = 531;
 char buffer[10];  // Assurez-vous que le buffer est assez grand
 sprintf(buffer, "%d", nombre);
 ```
+
+# Control flow
+..todo
 
 
 # Data types
