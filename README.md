@@ -24,6 +24,12 @@
 	
 # Octal Binary Hexadeciaml & more
 
+### 🚀 Projets
+#### Coder en C, la calculatrice Apple version programmeur : 
+1. Comprendre comment elle est implémenter ansi que toutes les fonctions : ASCII, Unicode, Binaire, 8(bytes) - 10(Decimal) - 16(hexadecimal)
+2. Operateur => XOR, AND, OR, NOR, NOT, <<, >>, NEG, x << Y, x >>Y, mod, rol, RoR, flip8, flip16, (, ). 
+
+
 ## Bitwise Magic
 ### 💡 Les opérateurs bitwise en C
 En C, les opérateurs bitwise permettent d’effectuer des opérations directement sur les bits d’un nombre.
