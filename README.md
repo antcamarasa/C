@@ -2,6 +2,7 @@
 * [Octal, Binary, Hexadecimals & More](#octal-binary-hexadeciaml-&-more)
 * [C Strucuture d'un programme](#c-structure-programme)
 * [Strings](#strings)
+* [Buffer](#buffer)
 * [Variables](#variables)
 	* [Reading input from user](#reading-input-from-user)
  	* [Casting](#casting)
@@ -587,6 +588,238 @@ int main() {
 }
 ```
 - strlen(str) : Cette fonction prend un pointeur vers une chaîne et retourne sa longueur (le nombre de caractères avant le caractère nul).
+
+# Buffer 
+Un buffer est souvent simplement un tableau en mémoire, mais l'important est de comprendre comment il fonctionne dans le contexte des entrées/sorties, et comment il est utilisé pour stocker des données temporairement avant qu'elles ne soient traitées.
+
+Imaginons un buffer comme une "boîte" dans laquelle on met des éléments, et cette boîte peut contenir un nombre fixe d'éléments. Par exemple, si vous avez un buffer de 100 caractères, vous avez une boîte où vous pouvez stocker jusqu'à 100 caractères. Vous allez y insérer des éléments (caractères, nombres, etc.), et une fois que le buffer est rempli, il faut soit le vider pour ajouter de nouveaux éléments, soit traiter les éléments déjà présents dans le buffer.
+
+## Représentation du buffer dans le code
+Prenons un exemple simple avec un tableau de 100 caractères, char buffer[100]; en C. On va visualiser ce qui se passe avec des commentaires.
+```c
+#include <stdio.h>
+
+int main() {
+    char buffer[100];  // Crée un buffer de 100 caractères
+    // Imaginons que ce buffer est une série de cases mémoires que l'on peut remplir.
+    // [0] [1] [2] [3] ... [99]  --> 100 cases, chaque case peut contenir un caractère (char).
+
+    // Pour l'exemple, supposons que l'utilisateur entre la chaîne "Bonjour":
+    // Le buffer va ressembler à ceci après avoir utilisé fgets():
+    // [B] [o] [n] [j] [o] [u] [r] [\0] [ ] [ ] [ ] [ ] ... [ ] (les espaces sont vides)
+    // [ ] [ ] [ ] [ ] ... [ ] [ ] [ ] [ ] (cases restantes vides)
+
+    fgets(buffer, sizeof(buffer), stdin);  // On lit une ligne et on la stocke dans buffer
+
+    printf("Buffer contient: %s\n", buffer);  // Affiche le contenu du buffer
+
+    return 0;
+}
+```
+
+Explication détaillée :
+- Le buffer de 100 caractères (char buffer[100];) est simplement un tableau qui peut contenir jusqu'à 100 caractères.
+- Lorsque vous utilisez fgets(buffer, sizeof(buffer), stdin), vous lisez un certain nombre de caractères du clavier et les placez dans ce tableau.
+- Par exemple, si vous tapez "Bonjour", le tableau buffer va stocker chaque caractère à une position différente. Après cette lecture, le tableau ressemble à ceci (en mettant chaque caractère dans sa propre case de mémoire) :
+
+```c
+buffer[0] = 'B'
+buffer[1] = 'o'
+buffer[2] = 'n'
+buffer[3] = 'j'
+buffer[4] = 'o'
+buffer[5] = 'u'
+buffer[6] = 'r'
+buffer[7] = '\0'  // Le caractère de fin de chaîne, signifiant que la chaîne est terminée.
+buffer[8] = ' '   // Un espace vide après la chaîne.
+buffer[9] = ' '   // Espace vide.
+...
+buffer[99] = ' '  // Espace vide.
+```
+
+## Déclarer un Buffer en C : Plusieurs Méthodes
+Il y a principalement trois façons de déclarer un buffer en C :
+### 1️⃣ Déclaration avec un tableau statique
+```c
+char buffer[100];  // Un buffer de 100 éléments (stocké sur la stack)
+```
+#### 📌 Explication :
+- buffer est un tableau de 100 char (1 octet chacun).
+- 100 signifie 100 octets (car char fait 1 octet en C).
+- Stocké sur la stack, donc libéré automatiquement à la fin de la fonction.
+
+### 2️⃣ Allocation dynamique avec malloc() ou calloc()
+```c
+uint8_t *memory_container = (uint8_t *)calloc(4, sizeof(uint8_t));
+```
+
+### 📌 Explication :
+- uint8_t est un alias pour unsigned char (toujours 1 octet).
+- calloc(4, sizeof(uint8_t)) alloue 4 octets en mémoire dynamique.
+- Stocké sur le heap (nécessite free() après usage).
+
+#### Équivalent avec malloc() :
+```c
+uint8_t *buffer = (uint8_t *)malloc(100 * sizeof(uint8_t));
+```
+📌 Ici, buffer stocke 100 octets sur le heap, et doit être libéré avec free(buffer);.
+
+### Utiliser une structure pour gérer un buffer plus avancé
+```c
+typedef struct {
+    uint8_t data[100];  // 100 octets de stockage
+    size_t size;        // Taille actuelle
+} Buffer;
+```
+📌 Explication :
+- data[100] est un buffer de 100 octets.
+- size permet de suivre combien d’octets sont réellement utilisés.
+
+## 🔍 Que représente le 100 dans buffer[100] ?
+Le 100 signifie 100 éléments du type du tableau.
+
+| Type de buffer        | Taille d'un élément       | Taille totale en mémoire |
+|-----------------------|--------------------------|--------------------------|
+| `char buffer[100];`   | 1 octet                   | 100 octets               |
+| `int buffer[100];`    | 4 octets (sur x86_64)     | 400 octets               |
+| `uint8_t buffer[100];`| 1 octet                   | 100 octets               |
+| `double buffer[100];` | 8 octets                  | 800 octets               |
+
+
+👉 Ce n'est ni des bits, ni de l’hexadécimal, c’est juste un nombre d’éléments, et la taille réelle dépend du type.
+
+
+## 🚀 Comparaison entre Stack et Heap pour un Buffer
+
+| Critère         | Tableau statique (`buffer[100]`) | Allocation dynamique (`malloc()`) |
+|----------------|--------------------------------|----------------------------------|
+| **Taille**     | Fixe (définie à la compilation) | Dynamique (modifiable à l’exécution) |
+| **Stockage**   | Stocké dans la **pile** (stack) | Stocké dans le **tas** (heap) |
+| **Performance** | ⚡ Très rapide, car la mémoire est gérée automatiquement | 🐢 Plus lent, car il faut demander la mémoire au système |
+| **Libération** | ✅ Automatique, dès que la fonction se termine | ❗ Manuelle, il faut appeler `free()` pour libérer la mémoire |
+| **Risque**     | ⚠️ Risque d'overflow si la taille est trop grande | ❌ Risque d'erreur d’allocation si la mémoire est insuffisante |
+
+
+
+## Pourquoi utiliser un buffer ?
+- Performance : Plutôt que de lire un caractère à la fois, les programmes lisent et écrivent souvent en blocs. Cela réduit les appels système coûteux (comme read() et write()).
+- Gestion de la mémoire : Un buffer vous permet de stocker temporairement des données dans la mémoire et de les traiter en toute sécurité avant de les utiliser dans votre programme.
+- Entrées/Sorties (I/O) : Lorsque vous lisez ou écrivez dans des fichiers ou d'autres périphériques, un buffer est utilisé pour accumuler ou vider des données plus efficacement.
+
+
+Au final Un buffer est essentiellement un tableau de mémoire dans lequel vous stockez temporairement des données. En utilisant des buffers, vous gérez efficacement la lecture et l'écriture de données, que ce soit dans des fichiers, des périphériques, ou l'entrée/sortie standard. Le buffer facilite la gestion de ces données en lot et améliore les performances du programme.
+
+
+## SÉRIE D’EXERCICES : Maîtriser les Buffers en C
+
+###🟢 Niveau 1 : Bases des Buffers
+#### 1. Lire et afficher une chaîne avec fgets()
+Objectif : Comprendre comment un buffer stocke une chaîne de caractères.
+📌 Écrivez un programme qui :
+- Demande à l’utilisateur d’entrer une chaîne de caractères (max 50 caractères
+- Stocke cette entrée dans un buffer.
+- Affiche le contenu du buffer.
+⚠️ Attention : fgets() stocke aussi le \n, assurez-vous de le gérer si nécessaire.
+
+#### 2. Expérimenter avec scanf("%c") et le buffer d’entrée
+Objectif : Comprendre comment fonctionne le buffer du clavier.
+📌 Écrivez un programme qui :
+- Demande un caractère à l’utilisateur.
+- Demande un second caractère juste après.
+- Affiche les deux caractères.
+❓ Problème : scanf("%c", &c); pose souvent problème à cause du buffer stdin qui garde les \n. Testez et corrigez !
+
+### 🟡 Niveau 2 : Manipulation Avancée des Buffers
+#### 3. Lire une ligne de texte sans fgets()
+Objectif : Implémenter fgets() soi-même.
+📌 Écrivez une fonction my_gets() qui :
+- Lit caractère par caractère avec getchar().
+- Stocke ces caractères dans un buffer.
+- S’arrête lorsque \n est rencontré ou si le buffer est plein.
+- Ajoute \0 à la fin.
+```c
+char buffer[100];
+my_gets(buffer, 100);
+printf("Vous avez écrit : %s\n", buffer);
+```
+
+### 4. Effacer le buffer d’entrée (stdin)
+Objectif : Nettoyer le buffer après une mauvaise lecture.
+📌 Implémentez une fonction clear_stdin() qui :
+- Lit et vide tous les caractères restants jusqu’à \n.
+- À utiliser après un scanf("%d") pour éviter des erreurs avec fgets() ensuite.
+```c
+int n;
+char buffer[50];
+printf("Entrez un nombre : ");
+scanf("%d", &n);
+clear_stdin();
+printf("Entrez une phrase : ");
+fgets(buffer, 50, stdin);
+printf("Vous avez écrit : %s\n", buffer);
+```
+
+### 5. Lire une chaîne avec read() au lieu de fgets()
+Objectif : Comprendre les buffers bas niveau.
+📌 Utilisez read() au lieu de fgets() pour lire dans stdin :
+```c
+char buffer[50];
+read(0, buffer, 50);
+printf("Buffer : %s\n", buffer);
+```
+Que remarquez-vous ? Pourquoi y a-t-il des différences avec fgets() ?
+
+### 🔴 Niveau 3 : Travaux pratiques sur les Buffers
+#### 6. Lire un fichier en mémoire avec un buffer
+Objectif : Lire un fichier par morceaux en utilisant un buffer.
+📌 Écrivez un programme qui :
+- Ouvre un fichier texte.txt.
+- Lit 20 caractères à la fois avec fread().
+- Affiche le contenu lu.
+- Continue jusqu'à la fin du fichier.
+```c
+FILE *file = fopen("texte.txt", "r");
+char buffer[20];
+while (fread(buffer, 1, 20, file) > 0) {
+    printf("%s", buffer);
+}
+fclose(file);
+```
+
+#### 7. Écrire dans un fichier avec un buffer
+Objectif : Écrire progressivement dans un fichier
+📌 Implémentez un programme qui :
+- Ouvre output.txt en mode écriture.
+- Écrit un texte dans le fichier en utilisant un buffer.
+- Ferme le fichier.
+Testez avec fprintf() vs fwrite() et comparez.
+
+#### 8. Implémenter un getline() personnalisé
+Objectif : Lire une ligne sans savoir sa taille à l’avance.
+📌 Écrivez une fonction my_getline() qui :
+- Alloue dynamiquement de la mémoire.
+- Lit caractère par caractère.
+- Agrandit le buffer dynamiquement si nécessaire (realloc()).
+- Retourne une chaîne de caractères complète.
+
+
+### 🟣 Niveau 4 : Défi Final - Buffer Circulaire
+9. Implémenter un Circular Buffer (Buffer Circulaire)
+Objectif : Créer un buffer circulaire capable de stocker un nombre limité de données et de les récupérer dans l’ordre.
+📌 Le buffer doit :
+- Stocker N éléments dans un tableau fixe.
+- Avoir un pointeur de lecture et un pointeur d’écriture.
+- Gérer les écrasements quand il est plein.
+
+Exemple de fonctionnement attendu :
+```c
+CircularBuffer cb;
+cb_init(&cb, 5);
+cb_push(&cb, 'A');
+cb_push(&cb, 'B');
+cb_push(&cb, 'C');
+char ch = cb_pop(&cb); // Doit retourner 'A'
+```
 
 
 # Variables
