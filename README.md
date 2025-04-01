@@ -1349,13 +1349,54 @@ En utilisant des pointeurs, la fonction get_unique_number peut modifier directem
 
 ## 🔹 Synthèse des rôles de `*` et `&`
 
-| Symbole       | Signification                                   |
-|--------------|-----------------------------------------------|
+| Symbole       | Signification                                           |
+|--------------|----------------------------------------------------------|
 | `int* ptr;`  | `ptr` est un pointeur vers un `int` (stocke une adresse) |
-| `ptr = &x;`  | `ptr` stocke l'adresse de `x`              |
-| `*ptr`       | Accède/modifie la valeur à l’adresse pointée |
-| `&x`         | Donne l'adresse de `x`                      |
+| `ptr = &x;`  | `ptr` stocke l'adresse de `x`                            |
+| `*ptr`       | Accède/modifie la valeur à l’adresse pointée             |
+| `&x`         | Donne l'adresse de `x`                                   |
 
+## Pointeurs de fonctions
+Les pointeurs de fonction en C permettent de stocker l'adresse d'une fonction et de l'appeler via ce pointeur.  
+- Ils sont utilisés dans divers cas où on a besoin de choisir dynamiquement quelle fonction appeler à l'exécution..
+- Cela permet de rendre le code plus flexible et d'implémenter des concepts comme les callbacks, l'extension de bibliothèques, ou les fonctions de tri et de recherche paramétrables par des comparateurs.
+
+### Qu'est-ce qu'un pointeur de fonction ?
+Un pointeur de fonction est une variable qui contient l'adresse d'une fonction. De cette façon, tu peux appeler la fonction à partir du pointeur.
+
+### Syntaxe des pointeurs de fonction
+Pour déclarer un pointeur de fonction, on indique d'abord le type de la fonction pointée, puis on utilise un astérisque (*) pour le pointeur, suivi des paramètres de la fonction.
+```c
+return_type (*pointer_name)(parameter_type_1, parameter_type_2, ...);
+```
+
+Exemple concret : Supposons que nous ayons une fonction qui prend un int et retourne un int :
+#### 1. Déclaration d'un pointeur de fonction.
+```c
+int add_one(int x) {
+    return x + 1;
+}
+
+// Pour déclarer un pointeur vers cette fonction :
+
+int(*p)(int)
+// Même type de retour que celui de la fonction.
+// *p nom du pointeur
+// type du paramètre
+```
+
+#### 2. Initialisation d'un pointeur de fonction
+Pour initialiser un pointeur de fonction, on assigne l'adresse de la fonction à ce pointeur :
+```c
+p = add_one;
+```
+Maintenant, p pointe vers la fonction add_one.
+
+#### 3. Appel via le pointeur de fonction 
+```c
+int result = p(5);  // Appelle add_one(5) via le pointeur
+```
+Cela aura le même effet que d'appeler directement la fonction add_one(5).
 
 
 # Gestion de la mmemoire
@@ -1386,7 +1427,196 @@ for (int i = 0; i < 5; i++) {
 free(tableau); // Libérer la mémoire après utilisation
 ```
 
-📌 Problème : La mémoire allouée n'est pas initialisée, donc elle peut contenir des valeurs indéterminées.
+#### Exemple avec plusieurs fonctions et un pointeur de fonction : 
+Cet exemple montre comment utiliser des pointeurs de fonction pour appeler différentes fonctions selon les besoins
+```c
+#include <stdio.h>
+
+// Déclaration de fonctions
+int add(int x, int y) {
+    return x + y;
+}
+
+int subtract(int x, int y) {
+    return x - y;
+}
+
+int multiply(int x, int y) {
+    return x * y;
+}
+
+int main() {
+    // Déclaration du pointeur de fonction
+    int (*operation)(int, int);
+
+    // Utilisation du pointeur pour appeler différentes fonctions
+    operation = add;
+    printf("Addition : %d\n", operation(3, 4)); // 7
+
+    operation = subtract;
+    printf("Soustraction : %d\n", operation(5, 2)); // 3
+
+    operation = multiply;
+    printf("Multiplication : %d\n", operation(2, 6)); // 12
+
+    return 0;
+}
+```
+
+#### Exemple avec un tableau de pointeurs de fonction
+Si tu as plusieurs fonctions qui ont la même signature (même type de retour et même type d'arguments), tu peux aussi créer un tableau de pointeurs de fonction pour les gérer dynamiquement.
+```c
+#include <stdio.h>
+
+// Déclaration de fonctions
+int add(int x, int y) {
+    return x + y;
+}
+
+int subtract(int x, int y) {
+    return x - y;
+}
+
+int multiply(int x, int y) {
+    return x * y;
+}
+
+int divide(int x, int y) {
+    return y != 0 ? x / y : 0;  // Evite la division par 0
+}
+
+int main() {
+    // Tableau de pointeurs de fonction
+    int (*operations[])(int, int) = {add, subtract, multiply, divide};
+
+    // Appel de chaque fonction via le tableau
+    printf("Addition : %d\n", operations[0](3, 4));
+    printf("Soustraction : %d\n", operations[1](7, 2));
+    printf("Multiplication : %d\n", operations[2](3, 5));
+    printf("Division : %d\n", operations[3](10, 2));
+
+    return 0;
+}
+```
+
+#### Fonction de comparaison par tri 
+```c
+#include <stdio.h>
+#include <stdlib.h>
+
+// Fonction de comparaison pour tri croissant
+int compare_ascending(const void *a, const void *b) {
+    return (*(int*)a - *(int*)b);
+}
+
+// Fonction de comparaison pour tri décroissant
+int compare_descending(const void *a, const void *b) {
+    return (*(int*)b - *(int*)a);
+}
+
+int main() {
+    int arr[] = {5, 2, 9, 1, 5, 6};
+    int size = sizeof(arr) / sizeof(arr[0]);
+
+    // Tri croissant
+    qsort(arr, size, sizeof(int), compare_ascending);
+
+    // Affichage du tableau trié
+    printf("Tri croissant : ");
+    for (int i = 0; i < size; i++) printf("%d ", arr[i]);
+    printf("\n");
+
+    // Tri décroissant
+    qsort(arr, size, sizeof(int), compare_descending);
+
+    // Affichage du tableau trié
+    printf("Tri décroissant : ");
+    for (int i = 0; i < size; i++) printf("%d ", arr[i]);
+    printf("\n");
+
+    return 0;
+}
+```
+#### 🔍 Où est le pointeur de fonction ?
+- 👉 compare_ascending et compare_descending sont des fonctions.
+- 👉 qsort() attend un pointeur de fonction comme dernier argument.
+- 👉 On passe directement compare_ascending ou compare_descending à qsort(), ce qui lui permet de choisir dynamiquement la méthode de comparaison.
+
+#### La fonction qsort() est définie ainsi :
+```c
+void qsort(void *base, size_t nitems, size_t size, 
+           int (*compar)(const void *, const void *));
+```
+- 🔹 compar est un pointeur de fonction qui prend deux pointeurs génériques (void *) et retourne un int.
+- 🔹 Ce pointeur permet à qsort() d’appeler dynamiquement la fonction de comparaison fournie par l’utilisateur.
+- ✅ En lui passant compare_ascending, qsort() sait qu'il doit trier du plus petit au plus grand.
+- ✅ En lui passant compare_descending, qsort() sait qu'il doit trier du plus grand au plus petit.
+
+#### Utilisation des pointeurs de fonction pour des callbacks
+Les pointeurs de fonction sont très utiles dans des situations où tu veux passer des fonctions comme arguments à d'autres fonctions. Cela permet une grande flexibilité, par exemple dans les bibliothèques de tri ou de recherche.
+- Voici un exemple d'utilisation d'un pointeur de fonction comme "callback" dans une fonction de tri :
+```c
+#include <stdio.h>
+
+// Fonction de tri par ordre croissant
+int ascending(int a, int b) {
+    return a - b;
+}
+
+// Fonction de tri par ordre décroissant
+int descending(int a, int b) {
+    return b - a;
+}
+
+// Fonction de tri générique
+void sort(int arr[], int size, int (*cmp)(int, int)) {
+    for (int i = 0; i < size - 1; i++) {
+        for (int j = i + 1; j < size; j++) {
+            if (cmp(arr[i], arr[j]) > 0) {
+                int temp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = temp;
+            }
+        }
+    }
+}
+
+// Fonction pour afficher un tableau
+void print_array(int arr[], int size) {
+    for (int i = 0; i < size; i++) {
+        printf("%d ", arr[i]);
+    }
+    printf("\n");
+}
+
+int main() {
+    int arr[] = {7, 3, 9, 1, 5};
+    int size = 5;
+
+    // Trier par ordre croissant
+    sort(arr, size, ascending);
+    print_array(arr, size); // Affiche 1 3 5 7 9
+
+    // Trier par ordre décroissant
+    sort(arr, size, descending);
+    print_array(arr, size); // Affiche 9 7 5 3 1
+
+    return 0;
+}
+```
+#### 📌 Conclusion : Quand utiliser les pointeurs de fonction ?
+Les pointeurs de fonction sont utiles pour : ✔ Rendre le code générique : une seule fonction pour gérer plusieurs cas.
+- ✔ Éviter la duplication de code : on ne répète pas la même logique avec juste des if différents.
+- ✔ Choisir dynamiquement une fonction : par exemple en fonction d'un choix de l'utilisateur.
+- ✔ Utiliser des callbacks : très utile dans les bibliothèques et les API.
+- ✔ Créer des structures extensibles : comme une table d’événements ou une liste de traitements.
+
+#### 📚 Exercice pratique
+- Créer une fonction find_value() qui prend un tableau et un pointeur de fonction (min ou max) et retourne la valeur correspondante.
+- Créer une calculatrice qui prend une opération (+, -, *, /) sous forme de paramètre et exécute dynamiquement la bonne fonction.
+- Créer un menu dynamique : L’utilisateur choisit une option (1 : dire bonjour, 2 : dire au revoir, etc.), et un pointeur de fonction exécute la bonne fonction.
+
+
 
 ## Calloc (Clear allocation)
 calloc() fonctionne comme malloc(), mais il initialise la mémoire à zéro.
