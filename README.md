@@ -1078,6 +1078,55 @@ int main() {
 }
 ```
 
+
+### Passer un tableau en paramêtre d'une fonction
+#### 1. Pourquoi int my_array[] est équivalent à int *my_array ?
+En C, lorsqu’un tableau est passé en argument à une fonction, il décaye automatiquement en pointeur vers son premier élément. Cela signifie que :
+```c
+int find_maximum_value(int my_array[]) { ... }
+// Revient au même
+int find_maximum_value(int *my_array){ ... }
+```
+Dans les deux cas, la fonction ne reçoit pas le tableau lui-même, mais l’adresse de son premier élément. Ainsi, toute modification faite à my_array dans la fonction affectera directement le tableau original.
+
+#### 2. Problème : La perte de la taille du tableau
+Le problème avec cette approche est que la fonction ne connaît pas la taille du tableau.
+Exemple :
+```c
+void print_array(int my_array[]) {
+    printf("Taille du tableau : %zu\n", sizeof(my_array) / sizeof(my_array[0]));
+}
+```
+
+Si tu appelles print_array comme ceci :
+```c
+int tab[5] = {1, 2, 3, 4, 5};
+print_array(tab);
+```
+Le résultat ne sera pas 5 mais une valeur incorrecte, car sizeof(my_array) ne donne pas la taille du tableau mais celle d’un pointeur (sizeof(int *)).
+
+### Solution : Toujours passer explicitement la taille du tableau !
+```c
+void print_array(int my_array[], int size) {
+    for (int i = 0; i < size; i++) {
+        printf("%d ", my_array[i]);
+    }
+}
+```
+
+#### 3. Bonne pratique : Ajouter const si le tableau n’est pas modifié
+Si ta fonction ne doit pas modifier le tableau, il est recommandé d’utiliser const :
+```c
+int find_maximum_value(const int my_array[], int size);
+```
+Cela empêche toute modification accidentelle et améliore la lisibilité du code.
+
+#### Meilleure façon de déclarer une fonction qui prend un tableau en paramètre :
+
+```c
+int find_maximum_value(const int *my_array, int size);
+```
+
 ### Tableaux et mémoire
 En mémoire, un tableau est stocké de manière contiguë. Chaque élément occupe un espace fixe en fonction de son type.
 ```c
