@@ -17,6 +17,22 @@
   	* [Set](#set)
   	* [Tas](#tas)
 * [Pointeurs](#pointeurs)
+	*[Introduction to pointers]()
+  	*[Working with pointers]()
+  	*[Pointer types, pointer arithmetic, void pointers]()
+  	*[Pointers to pointers in C]()
+  	*[Pointer as function argumtents]()
+  	*[Pointers and arrays]()
+  	*[Array as function arguments]()
+  	*[Character arrays and pointers]()
+  	*[Pointers and 2-D arrays]()
+  	*[Pointers and multidimensional arrays]()
+  	*[Pointers and dynamic memory - Stack vs Heap]()
+  	*[Dynamic memory allocation in C - malloc, calloc, realloc, free]()
+  	*[Pointers as function returns in C]()
+  	*[Function pointers in C]()
+  	*[Function pointers and callbacks]()
+  	*[Memory leak in C]()	 
 * [Gestion de la mémoire](#gestion-de-la-memoire)
 * [Data Types](#data-types)
 * [Organisation des dossiers](#organisation-des-dossiers-du-projet)
@@ -1303,6 +1319,67 @@ Car un tableau est converti en pointeur lorsqu’il est passé à une fonction, 
 - Libère la mémoire.
 
 # Pointeurs
+## Introduction aux pointeurs
+
+### Exercice 1 : Déclaration et affichage d’un pointeur (Facile)
+📌 **Consigne** :  
+- Déclare un entier et un pointeur vers cet entier.  
+- Affiche l'adresse de la variable avec et sans le pointeur.  
+
+💡 **Objectifs** : Comprendre comment déclarer un pointeur et afficher une adresse mémoire.  
+
+### 📝 Instructions :
+1. Déclare une variable `int a = 10;`
+2. Déclare un pointeur `p` qui stocke l’adresse de `a`.
+3. Affiche l’adresse de `a` en utilisant `&a`.
+4. Affiche l’adresse de `a` en utilisant `p`.
+5. Affiche la valeur de `a` en utilisant `p`.
+
+### Exercice 2 : Modification d’une valeur via un pointeur (Facile)
+📌 **Consigne** :  
+Utilise un pointeur pour modifier la valeur d'une variable.  
+
+💡 **Objectifs** : Comprendre l'utilisation de l'opérateur `*` pour accéder à la valeur pointée.  
+
+### 📝 Instructions :
+1. Déclare une variable `int b = 5;`.
+2. Déclare un pointeur qui pointe vers `b`.
+3. Modifie la valeur de `b` via le pointeur.
+4. Affiche la valeur de `b` avant et après modification.
+
+### Exercice 3 : Échange de deux variables avec pointeurs (Intermédiaire)
+📌 **Consigne** :  
+Échange les valeurs de deux variables en utilisant des pointeurs.  
+
+💡 **Objectifs** : Comprendre comment utiliser des pointeurs pour modifier plusieurs variables.  
+### 📝 Instructions :
+1. Déclare deux entiers `int x = 3;` et `int y = 7;`.
+2. Déclare deux pointeurs pointant vers `x` et `y`.
+3. Échange leurs valeurs en utilisant uniquement les pointeurs.
+4. Affiche les valeurs avant et après l’échange.
+
+## Exercice 4 : Pointeur non initialisé et erreurs courantes (Intermédiaire)
+📌 **Consigne** :  
+Analyse ce qui se passe lorsque tu utilises un pointeur non initialisé.  
+
+💡 **Objectifs** : Comprendre les risques liés aux pointeurs non initialisés.  
+
+### 📝 Instructions :
+1. Déclare un pointeur `int *ptr;` mais ne l'initialise pas.
+2. Essaie d'afficher `*ptr` et observe le résultat.
+3. Explique pourquoi cela provoque une erreur et corrige en initialisant `ptr` à `NULL`.
+
+### Exercice 5 : Pointeurs et fonctions (Avancé)
+📌 **Consigne** :  
+Écris une fonction qui modifie une variable en utilisant un pointeur.  
+
+💡 **Objectifs** : Comprendre le passage par adresse dans une fonction.  
+### 📝 Instructions :
+1. Écris une fonction `void increment(int *p)` qui prend un pointeur en paramètre et incrémente la valeur pointée.
+2. Déclare une variable `n = 10;`, passe son adresse à `increment()` et affiche `n` avant et après l’appel.
+
+
+// Depracated
 Les * en C ont deux significations principales, et c’est là que la confusion vient souvent. Je vais t’expliquer ligne par ligne en détaillant ce qu’il se passe avec * et & pour que ce soit limpide.
 
 ## 🔹 1. Déclaration d'un pointeur
