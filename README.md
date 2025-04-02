@@ -17,22 +17,23 @@
   	* [Set](#set)
   	* [Tas](#tas)
 * [Pointeurs](#pointeurs)
-	*[Introduction to pointers]()
-  	*[Working with pointers]()
-  	*[Pointer types, pointer arithmetic, void pointers]()
-  	*[Pointers to pointers in C]()
-  	*[Pointer as function argumtents]()
-  	*[Pointers and arrays]()
-  	*[Array as function arguments]()
-  	*[Character arrays and pointers]()
-  	*[Pointers and 2-D arrays]()
-  	*[Pointers and multidimensional arrays]()
-  	*[Pointers and dynamic memory - Stack vs Heap]()
-  	*[Dynamic memory allocation in C - malloc, calloc, realloc, free]()
-  	*[Pointers as function returns in C]()
-  	*[Function pointers in C]()
-  	*[Function pointers and callbacks]()
-  	*[Memory leak in C]()	 
+  * [Introduction to pointers]()
+  * [Working with pointers]()
+  * [Pointer types, pointer arithmetic, void pointers]()
+  * [Pointers to pointers in C]()
+  * [Pointer as function arguments]()
+  * [Pointers and arrays]()
+  * [Array as function arguments]()
+  * [Character arrays and pointers]()
+  * [Pointers and 2-D arrays]()
+  * [Pointers and multidimensional arrays]()
+  * [Pointers and dynamic memory - Stack vs Heap]()
+  * [Dynamic memory allocation in C - malloc, calloc, realloc, free]()
+  * [Pointers as function returns in C]()
+  * [Function pointers in C]()
+  * [Function pointers and callbacks]()
+  * [Memory leak in C]()
+ 
 * [Gestion de la mémoire](#gestion-de-la-memoire)
 * [Data Types](#data-types)
 * [Organisation des dossiers](#organisation-des-dossiers-du-projet)
@@ -1358,7 +1359,7 @@ Utilise un pointeur pour modifier la valeur d'une variable.
 3. Échange leurs valeurs en utilisant uniquement les pointeurs.
 4. Affiche les valeurs avant et après l’échange.
 
-## Exercice 4 : Pointeur non initialisé et erreurs courantes (Intermédiaire)
+### Exercice 4 : Pointeur non initialisé et erreurs courantes (Intermédiaire)
 📌 **Consigne** :  
 Analyse ce qui se passe lorsque tu utilises un pointeur non initialisé.  
 
@@ -1377,6 +1378,146 @@ Analyse ce qui se passe lorsque tu utilises un pointeur non initialisé.
 ### 📝 Instructions :
 1. Écris une fonction `void increment(int *p)` qui prend un pointeur en paramètre et incrémente la valeur pointée.
 2. Déclare une variable `n = 10;`, passe son adresse à `increment()` et affiche `n` avant et après l’appel.
+
+## Working with pointers
+### Exercice 1 : Pointeurs et déréférencement (Facile)
+
+📌 **Consigne** :  
+Déréférence un pointeur pour accéder à la valeur d’une variable.  
+
+💡 **Objectifs** : Comprendre l’opérateur `*` pour déréférencer un pointeur.  
+
+### 📝 Instructions :
+1. Déclare un entier `a = 20;`.
+2. Déclare un pointeur `p` qui pointe vers `a`.
+3. Utilise le pointeur pour afficher la valeur de `a` en utilisant `*p`.
+4. Modifie la valeur de `a` via le pointeur et affiche-la avant et après la modification.
+
+### Exercice 2 : Pointeur vers un tableau (Facile)
+📌 **Consigne** :  
+Utilise un pointeur pour accéder aux éléments d’un tableau.  
+
+💡 **Objectifs** : Apprendre à manipuler un tableau via un pointeur.  
+### 📝 Instructions :
+1. Déclare un tableau `int arr[] = {1, 2, 3, 4, 5};`.
+2. Déclare un pointeur `p` pointant sur le premier élément du tableau.
+3. Utilise un pointeur pour afficher chaque élément du tableau (en utilisant l’arithmétique des pointeurs).
+4. Affiche les éléments du tableau un par un avec et sans utiliser le pointeur.
+
+### Exercice 3 : Arithmétique des pointeurs (Intermédiaire)
+💡 **Objectifs** :  
+Comprendre comment l’arithmétique des pointeurs fonctionne pour accéder aux éléments d’un tableau.  
+
+📌 **Consigne** :  
+Manipule les pointeurs à l’aide de l’arithmétique des pointeurs.
+
+### 📝 Instructions :
+1. Déclare un tableau `int arr[] = {10, 20, 30, 40, 50};`.
+2. Utilise un pointeur pour accéder au deuxième élément du tableau (en utilisant l’arithmétique des pointeurs).
+3. Modifie la valeur du quatrième élément du tableau via le pointeur.
+4. Affiche les éléments du tableau avant et après modification.
+
+### Exercice 4 : Pointeur vers une structure (Intermédiaire)
+💡 **Objectifs** :  
+Apprendre à utiliser des pointeurs avec des structures.
+
+📌 **Consigne** :  
+Utilise un pointeur pour manipuler une structure en C.
+
+### 📝 Instructions :
+1. Déclare une structure `struct Person { char name[20]; int age; };`.
+2. Déclare une variable de type `struct Person` et initialise-la avec des valeurs.
+3. Déclare un pointeur vers cette structure et affiche ses membres via le pointeur.
+4. Modifie les valeurs des membres de la structure via le pointeur et affiche les résultats.
+
+### Exercice 5 : Pointeur et tableau de structures (Avancé)
+💡 **Objectifs** :  
+Comprendre comment utiliser des pointeurs avec des tableaux de structures.
+
+📌 **Consigne** :  
+Manipule un tableau de structures avec des pointeurs.
+
+### 📝 Instructions :
+1. Déclare un tableau de structures `struct Person persons[3] = {{"Alice", 30}, {"Bob", 25}, {"Charlie", 35}};`.
+2. Utilise un pointeur pour accéder à chaque élément du tableau et afficher les informations.
+3. Modifie l’âge de la première personne et affiche le tableau avant et après modification.
+4. Implémente une fonction qui prend un pointeur vers un tableau de structures et modifie les informations de la structure.
+
+## Pointer types, pointer arithmetic, void pointers
+### Exercice 1 : Pointeur vers un type différent (Facile)
+
+💡 **Objectifs** :  
+Comprendre comment déclarer et utiliser des pointeurs vers différents types.
+
+📌 **Consigne** :  
+Crée un pointeur vers un type différent de `int` (par exemple, `float` ou `char`), et utilise-le pour accéder à la variable correspondante.
+
+### 📝 Instructions :
+1. Déclare une variable `float f = 3.14;`.
+2. Déclare un pointeur `p` qui pointe vers `f`.
+3. Affiche la valeur de `f` en utilisant le pointeur.
+4. Change la valeur de `f` via le pointeur et affiche la nouvelle valeur.
+
+### Exercice 2 : Arithmétique des pointeurs avec différents types (Intermédiaire)
+💡 **Objectifs** :  
+Comprendre l'impact de l’arithmétique des pointeurs en fonction des types de données.
+
+📌 **Consigne** :  
+Utilise l’arithmétique des pointeurs pour naviguer à travers un tableau de différents types.
+
+### 📝 Instructions :
+1. Déclare un tableau `int arr[] = {10, 20, 30, 40, 50};`.
+2. Déclare un pointeur `p` pointant vers le premier élément du tableau.
+3. Utilise l’arithmétique des pointeurs pour accéder au troisième élément et affiche sa valeur.
+4. Répète la même opération pour un tableau de `float` (par exemple `float arr2[] = {1.5, 2.5, 3.5, 4.5};`) et affiche le deuxième élément.
+
+### Exercice 3 : Pointeur `void` et conversion de type (Intermédiaire)
+
+💡 **Objectifs** :  
+Apprendre à utiliser les pointeurs `void` et à les convertir en pointeurs vers des types spécifiques.
+
+📌 **Consigne** :  
+Utilise un pointeur `void` pour manipuler différentes variables et effectue des conversions de type.
+
+### 📝 Instructions :
+1. Déclare une variable `int x = 10;` et une variable `double y = 20.5;`.
+2. Déclare un pointeur `void *ptr;`.
+3. Assigne à `ptr` l’adresse de `x`, puis affiche la valeur pointée (n’oublie pas de la convertir en `int` pour l'afficher).
+4. Assigne à `ptr` l’adresse de `y`, puis affiche la valeur pointée (convertir en `double` pour l'afficher).
+
+
+### Exercice 4 : Pointeur `void` avec fonction générique (Avancé)
+💡 **Objectifs** :  
+Utiliser des pointeurs `void` dans une fonction générique et effectuer une conversion de type à l’intérieur de la fonction.
+
+📌 **Consigne** :  
+Crée une fonction générique qui accepte un pointeur `void` pour traiter différents types de données.
+
+### 📝 Instructions :
+1. Crée une fonction `void print_value(void *ptr, char type)` qui prend un pointeur `void` et un type pour déterminer comment afficher la valeur pointée.
+2. Si le type est `'i'`, la fonction doit afficher un entier.
+3. Si le type est `'f'`, la fonction doit afficher un `float`.
+4. Si le type est `'c'`, la fonction doit afficher un `char`.
+5. Teste la fonction avec différentes variables et types (par exemple `int`, `float`, et `char`).
+
+
+### Exercice 5 : Tableau de pointeurs avec arithmétique (Avancé)
+💡 **Objectifs** :  
+Utiliser l'arithmétique des pointeurs pour naviguer à travers un tableau de pointeurs.
+
+📌 **Consigne** :  
+Crée un tableau de pointeurs et utilise l'arithmétique des pointeurs pour manipuler ces pointeurs.
+
+### 📝 Instructions :
+1. Crée un tableau `int arr[] = {10, 20, 30, 40, 50};`.
+2. Crée un tableau de pointeurs vers `int` : `int *ptr_arr[5];`.
+3. Assigne à chaque élément du tableau de pointeurs l’adresse des éléments du tableau `arr`.
+4. Utilise un pointeur pour accéder à chaque élément du tableau `arr` en utilisant l’arithmétique des pointeurs sur le tableau `ptr_arr`.
+5. Affiche chaque valeur pointée dans le tableau de pointeurs.
+
+
+
+
 
 
 // Depracated
