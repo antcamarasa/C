@@ -417,8 +417,8 @@ if (ptr) {
 }
 ```
 
-## Pointeurs et chaînes de caractères
-Les pointeurs et les chaînes de caractères sont des concepts clés en langage C, et leur interaction est essentielle pour bien comprendre la gestion des chaînes de caractères dans ce langage. Les pointeurs en C permettent de manipuler directement les adresses mémoire, ce qui les rend particulièrement utiles lorsqu'il s'agit de travailler avec des chaînes de caractères, car une chaîne est en réalité un tableau de caractères et peut être manipulée via un pointeur.
+##  et chaînes de caractères
+Les  et les chaînes de caractères sont des concepts clés en langage C, et leur interaction est essentielle pour bien comprendre la gestion des chaînes de caractères dans ce langage. Les  en C permettent de manipuler directement les adresses mémoire, ce qui les rend particulièrement utiles lorsqu'il s'agit de travailler avec des chaînes de caractères, car une chaîne est en réalité un tableau de caractères et peut être manipulée via un pointeur.
 
 ### 1. Les chaînes de caractères en C
 En C, une chaîne de caractères est un tableau de caractères qui se termine toujours par un caractère nul ('\0'), ce qui permet au programme de savoir où la chaîne se termine. Par exemple, la chaîne "Hello" est en fait un tableau de caractères contenant cinq lettres, suivies d'un caractère nul, soit :
@@ -427,7 +427,7 @@ En C, une chaîne de caractères est un tableau de caractères qui se termine to
 ```
 Cela signifie qu'une chaîne de caractères en C est toujours un tableau de caractères, et c'est ce tableau que nous manipulons lorsqu'on travaille avec des chaînes.
 
-### 2. Pointeurs vers des chaînes de caractères
+### 2.  vers des chaînes de caractères
 
 Un pointeur vers une chaîne de caractères est simplement un pointeur qui pointe vers le premier caractère d'une chaîne. En d'autres termes, au lieu de stocker la chaîne entière dans une variable, nous stockons une référence à la première case mémoire où la chaîne commence.
 Exemple de déclaration d'un pointeur vers une chaîne de caractères :
@@ -448,7 +448,7 @@ int main() {
 Fonctionnement interne :
 "Hello" est une chaîne littérale stockée dans une zone mémoire en lecture seule. Le pointeur str pointe donc vers le début de cette zone mémoire. Cela signifie que str contient l'adresse de la première case mémoire où 'H' est stocké, et printf sait comment afficher la chaîne en suivant la séquence de caractères jusqu'à ce qu'il rencontre le caractère nul '\0'.
 
-### 3. Modifications avec les pointeurs
+### 3. Modifications avec les 
 
 Le fait qu'un pointeur pointe vers une chaîne de caractères permet de manipuler la chaîne de différentes manières, mais il est important de noter que cela dépend de la façon dont la chaîne a été déclarée.
 
@@ -529,8 +529,8 @@ str[0] = 'J'; // Cela entraînera un segfault car la chaîne est en lecture seul
 - Optimisation : En plaçant les chaînes littérales dans une zone en lecture seule, le compilateur peut optimiser l'utilisation de la mémoire, car il peut partager des chaînes identiques entre différentes parties du programme sans avoir besoin de les dupliquer.
 - Protection contre les erreurs : Empêcher la modification accidentelle des chaînes littérales améliore la robustesse du programme. Cela évite des bugs difficiles à repérer où une chaîne de caractères pourrait être modifiée par erreur.
 
-### 5. Pointeurs vers des chaînes littérales
-Les chaînes de caractères peuvent être manipulées à l'aide de pointeurs. Un pointeur vers une chaîne littérale est un pointeur constant qui pointe vers une zone mémoire en lecture seule. Par conséquent, tu peux modifier un pointeur pour qu'il pointe vers une autre chaîne, mais tu ne peux pas modifier le contenu de la chaîne elle-même.
+### 5.  vers des chaînes littérales
+Les chaînes de caractères peuvent être manipulées à l'aide de . Un pointeur vers une chaîne littérale est un pointeur constant qui pointe vers une zone mémoire en lecture seule. Par conséquent, tu peux modifier un pointeur pour qu'il pointe vers une autre chaîne, mais tu ne peux pas modifier le contenu de la chaîne elle-même.
 ```c
 char *str = "Hello";  // Pointeur vers une chaîne littérale en mémoire
 str = "World";        // Tu peux changer où pointe le pointeur, mais pas la chaîne originale
@@ -539,11 +539,11 @@ str = "World";        // Tu peux changer où pointe le pointeur, mais pas la cha
 // avant ré assignation libérer la mémoire avec free() et réaffecter.
 ```
 
-## 4. Manipulation de chaînes avec des pointeurs
+## 4. Manipulation de chaînes avec des 
 
-Les pointeurs permettent de manipuler les chaînes de manière plus flexible, comme dans les exemples suivants :
+Les  permettent de manipuler les chaînes de manière plus flexible, comme dans les exemples suivants :
 
-### Accès aux caractères via des pointeurs
+### Accès aux caractères via des 
 
 Un pointeur peut être utilisé pour parcourir chaque caractère de la chaîne et effectuer des opérations sur chaque caractère.
 ```c
@@ -569,9 +569,9 @@ int main() {
 - ptr++ : Cette ligne déplace le pointeur vers le caractère suivant dans la chaîne.
 - Condition *ptr != '\0' : Le processus continue tant que le caractère pointé par ptr n'est pas le caractère nul '\0', ce qui marque la fin de la chaîne.
 
-## 5. Passage de chaînes de caractères aux fonctions avec des pointeurs
+## 5. Passage de chaînes de caractères aux fonctions avec des 
 
-Les chaînes de caractères sont souvent passées aux fonctions via des pointeurs pour économiser de la mémoire, car elles peuvent être grandes. Voici un exemple :
+Les chaînes de caractères sont souvent passées aux fonctions via des  pour économiser de la mémoire, car elles peuvent être grandes. Voici un exemple :
 
 ```c
 #include <stdio.h>
@@ -589,9 +589,9 @@ int main() {
 ```
 - char *str : Dans la fonction print_string, str est un pointeur vers une chaîne de caractères. Lorsque tu passes str à la fonction, le pointeur est copié, et la fonction peut accéder directement aux caractères de la chaîne.
 
-## 6. Utilisation des pointeurs avec strlen et d'autres fonctions de la bibliothèque C
+## 6. Utilisation des  avec strlen et d'autres fonctions de la bibliothèque C
 
-La bibliothèque standard C fournit de nombreuses fonctions utiles pour travailler avec des chaînes de caractères. Par exemple, strlen retourne la longueur d'une chaîne, et il fonctionne avec des pointeurs.
+La bibliothèque standard C fournit de nombreuses fonctions utiles pour travailler avec des chaînes de caractères. Par exemple, strlen retourne la longueur d'une chaîne, et il fonctionne avec des .
 ```c
 #include <stdio.h>
 #include <string.h>  // Pour strlen
@@ -1320,7 +1320,7 @@ Car un tableau est converti en pointeur lorsqu’il est passé à une fonction, 
 - Libère la mémoire.
 
 # Pointeurs
-## Introduction aux pointeurs
+## I. Introduction aux pointeurs
 
 ### Exercice 1 : Déclaration et affichage d’un pointeur (Facile)
 📌 **Consigne** :  
@@ -1379,7 +1379,7 @@ Analyse ce qui se passe lorsque tu utilises un pointeur non initialisé.
 1. Écris une fonction `void increment(int *p)` qui prend un pointeur en paramètre et incrémente la valeur pointée.
 2. Déclare une variable `n = 10;`, passe son adresse à `increment()` et affiche `n` avant et après l’appel.
 
-## Working with pointers
+## II. Working with pointers
 ### Exercice 1 : Pointeurs et déréférencement (Facile)
 
 📌 **Consigne** :  
@@ -1443,7 +1443,7 @@ Manipule un tableau de structures avec des pointeurs.
 3. Modifie l’âge de la première personne et affiche le tableau avant et après modification.
 4. Implémente une fonction qui prend un pointeur vers un tableau de structures et modifie les informations de la structure.
 
-## Pointer types, pointer arithmetic, void pointers
+## III. Pointer types, pointer arithmetic, void pointers
 ### Exercice 1 : Pointeur vers un type différent (Facile)
 
 💡 **Objectifs** :  
@@ -1516,8 +1516,212 @@ Crée un tableau de pointeurs et utilise l'arithmétique des pointeurs pour mani
 5. Affiche chaque valeur pointée dans le tableau de pointeurs.
 
 
+## IV. Pointers to pointers in C
+### Exercice 1 : Déclaration et utilisation d’un pointeur de pointeur (Facile)
+💡 **Objectifs** :  
+Comprendre comment fonctionne un pointeur vers un pointeur.
+
+📌 **Consigne** :
+Déclare et manipule un pointeur de pointeur pour accéder à une variable.
+
+### 📝 Instructions :
+ 1. Déclare un entier int a = 10;
+ 2. Déclare un pointeur int *p qui pointe vers a
+ 3. Déclare un pointeur de pointeur int **pp qui pointe vers p
+ 4. Affiche la valeur de a en utilisant pp (double déréférencement **pp)
+ 5. Modifie a via pp et affiche la nouvelle valeur
+
+### Exercice 2 : Modifier une variable via un pointeur de pointeur (Facile)
+💡 **Objectifs** :  
+Apprendre à modifier une variable en utilisant un pointeur de pointeur.
+
+📌 **Consigne** : 
+Utilise un pointeur de pointeur pour modifier la valeur d'une variable.
+### 📝 Instructions :
+ 1. Déclare une variable int x = 5;
+ 2. Crée un pointeur int *p = &x; et un pointeur de pointeur int **pp = &p;
+ 3. Écris une fonction void modify_value(int **pp, int new_value) qui modifie la valeur de x via pp
+ 4. Affiche x avant et après l'appel de la fonction
+
+### Exercice 3 : Tableaux et pointeurs de pointeurs (Intermédiaire)
+💡 **Objectifs** :
+Comprendre l’utilité des pointeurs de pointeurs pour stocker des tableaux dynamiques.
+
+📌 **Consigne** : 
+Utilise un pointeur de pointeur pour manipuler un tableau dynamique de pointeurs.
+
+### 📝 Instructions :
+ 1. Déclare un tableau d’entiers int arr[] = {1, 2, 3, 4, 5};
+ 2. Déclare un tableau de pointeurs int *ptr_arr[5]; qui stocke les adresses de arr
+ 3. Déclare un pointeur de pointeur int **pp = ptr_arr;
+ 4. Utilise pp pour afficher les valeurs du tableau arr
+ 5. Modifie un élément du tableau via pp et affiche les valeurs avant et après modification
 
 
+### Exercice 4 : Allocation dynamique avec pointeurs de pointeurs (Avancé)
+💡 **Objectifs** :  
+Comprendre comment utiliser des pointeurs de pointeurs pour gérer une matrice dynamique.
+
+📌 **Consigne** : 
+Alloue dynamiquement un tableau 2D en utilisant des pointeurs de pointeurs.
+
+### 📝 Instructions :
+ 1. Déclare un pointeur de pointeur int **matrix;
+ 2. Alloue dynamiquement un tableau de 3 lignes et 3 colonnes en utilisant malloc
+ 3. Remplis la matrice avec des valeurs croissantes (1, 2, 3, ...)
+ 4. Affiche la matrice sous forme de tableau
+ 5. Libère la mémoire allouée dynamiquement
+
+### Exercice 5 : Manipulation de chaînes de caractères avec un pointeur de pointeur (Avancé) 
+💡 **Objectifs** :  
+Comprendre comment manipuler des tableaux de chaînes avec des pointeurs de pointeurs.
+
+📌 **Consigne** : 
+Utilise un pointeur de pointeur pour manipuler un tableau de chaînes de caractères.
+
+### 📝 Instructions :
+ 1. Déclare un tableau de chaînes de caractères :
+ ```c
+ char *words[] = {"Bonjour", "Pointeurs", "C"};
+ ```
+ 2. Déclare un pointeur de pointeur char **pp = words;
+ 3. Utilise pp pour afficher chaque mot du tableau-
+ 4. Modifie le deuxième mot en lui attribuant une nouvelle chaîne de caractères
+ 5. Affiche à nouveau la liste des mots
+
+## V. Pointers as function arguments
+### Exercice 1 : Modifier une variable via un pointeur (Facile)
+💡 **Objectifs** : 
+Comprendre comment une fonction peut modifier directement une variable en utilisant un pointeur.
+
+📌 **Consigne** : 
+Passe un pointeur en argument d’une fonction pour modifier une variable.
+
+### 📝 Instructions :
+ 1. Déclare une fonction void update_value(int *p, int new_value) qui modifie la valeur pointée par p
+ 2. Déclare un entier int x = 5; et affiche sa valeur
+ 3. Appelle update_value(&x, 10); puis affiche la nouvelle valeur de x
+
+### Exercice 2 : Échanger deux variables avec des pointeurs (Facile)
+💡 **Objectifs** :  
+Apprendre à manipuler plusieurs pointeurs dans une fonction.
+
+📌 **Consigne** : 
+Utilise une fonction qui prend deux pointeurs en argument pour échanger deux variables.
+
+### 📝 Instructions :
+ 1. Déclare une fonction void swap(int *a, int *b) qui échange les valeurs de a et b
+ 2. Déclare deux entiers int x = 10, y = 20; et affiche leurs valeurs
+ 3. Appelle swap(&x, &y); puis affiche les nouvelles valeurs
+
+### Exercice 3 : Manipuler un tableau avec un pointeur en argument (Intermédiaire)
+💡 **Objectifs** :  
+Comprendre comment un tableau est passé par référence dans une fonction.
+
+📌 **Consigne** : 
+Passe un tableau à une fonction et modifie son contenu.
+
+### 📝 Instructions :
+ 1. Déclare une fonction void multiply_by_two(int *arr, int size) qui multiplie chaque élément du tableau par 2
+ 2. Déclare un tableau int numbers[] = {1, 2, 3, 4, 5};
+ 3. Affiche le tableau avant et après l’appel de la fonction
+
+### Exercice 4 : Allouer dynamiquement un tableau dans une fonction (Avancé)
+💡 **Objectifs** :
+Comprendre comment une fonction peut allouer de la mémoire et modifier un pointeur passé en argument.
+
+📌 **Consigne** : 
+Utilise un pointeur passé en argument pour allouer dynamiquement un tableau.
+
+### 📝 Instructions :
+ 1. Déclare une fonction void allocate_array(int **arr, int size) qui alloue un tableau dynamiquement et initialise ses valeurs à size * i
+ 2. Dans main(), déclare un pointeur int *array = NULL;
+ 3. Appelle allocate_array(&array, 5);
+ 4. Affiche le tableau puis libère la mémoire
+
+### Exercice 5 : Fonction retournant un pointeur alloué dynamiquement (Avancé)
+
+💡 **Objectifs** :  
+Comprendre comment une fonction peut renvoyer un pointeur sur une zone allouée dynamiquement.
+
+📌 **Consigne** : 
+Écris une fonction qui alloue un tableau et retourne un pointeur vers celui-ci.
+
+### 📝 Instructions :
+ 1. Déclare une fonction int* create_array(int size) qui retourne un tableau dynamique
+ 2. Alloue un tableau de size éléments, remplis-le avec des valeurs croissantes
+ 3. Retourne le pointeur du tableau
+ 4. Dans main(), appelle create_array(5), affiche les valeurs, puis libère la mémoire
+
+## VI. Pointers and arrays
+
+### Exercice 1 : Accéder aux éléments d’un tableau avec un pointeur (Facile)
+💡 **Objectifs** :  
+Comprendre comment un pointeur peut être utilisé pour accéder aux éléments d’un tableau.
+
+📌 **Consigne** : 
+Utilise un pointeur pour parcourir un tableau et afficher ses éléments.
+
+### 📝 Instructions :
+ 1. Déclare un tableau int numbers[] = {10, 20, 30, 40, 50};
+ 2. Déclare un pointeur int *ptr = numbers;
+ 3. Utilise une boucle for pour afficher tous les éléments du tableau en utilisant ptr
+ 4. Incrémente ptr à chaque itération pour parcourir le tableau
+
+### Exercice 2 : Modifier un tableau avec un pointeur (Facile)
+💡 **Objectifs** :  
+Apprendre à modifier les valeurs d’un tableau via un pointeur.
+
+📌 **Consigne** : 
+Utilise un pointeur pour modifier les éléments d’un tableau.
+
+### 📝 Instructions :
+ 1. Déclare un tableau int numbers[] = {1, 2, 3, 4, 5};
+ 2. Déclare un pointeur int *ptr = numbers;
+ 3. Utilise une boucle pour multiplier chaque élément du tableau par 2 via le pointeur
+ 4. Affiche les valeurs du tableau avant et après modification
+
+### Exercice 3 : Comparaison entre notation tableau et pointeur (Intermédiaire)
+💡 **Objectifs** :  
+Comprendre la relation entre array[i] et *(ptr + i).
+
+📌 **Consigne** : 
+Accède aux éléments d’un tableau en utilisant deux notations différentes.
+
+### 📝 Instructions :
+ 1. Déclare un tableau int numbers[] = {3, 6, 9, 12, 15};
+ 2. Déclare un pointeur int *ptr = numbers;
+ 3. Affiche les éléments du tableau en utilisant les deux notations suivantes :
+```c
+    numbers[i]
+    *(ptr + i)
+```
+
+### Exercice 4 : Fonction qui prend un tableau en paramètre (Avancé)
+
+💡 **Objectifs** :  
+Comprendre que lorsqu’un tableau est passé à une fonction, il est en fait passé sous forme de pointeur.
+
+📌 **Consigne** : 
+Crée une fonction qui prend un tableau comme argument et le modifie via un pointeur.
+
+### 📝 Instructions :
+ 1. Déclare une fonction void square_elements(int *arr, int size) qui élève chaque élément au carré
+ 2. Déclare un tableau int values[] = {2, 4, 6, 8};
+ 3. Appelle la fonction et affiche les valeurs avant et après modification
+
+### Exercice 5 : Trouver le plus grand élément d’un tableau avec un pointeur (Avancé)
+💡 **Objectifs** : 
+Apprendre à parcourir un tableau avec un pointeur pour effectuer une opération.
+
+📌 **Consigne** : 
+Écris une fonction qui trouve le plus grand élément d’un tableau en utilisant un pointeur.
+
+### 📝 Instructions :
+ 1. Déclare une fonction int find_max(int *arr, int size) qui retourne la plus grande valeur d’un tableau
+ 2. Parcours le tableau avec un pointeur et trouve la valeur maximale
+ 3. Déclare un tableau int data[] = {10, 25, 35, 20, 50};
+ 4. Appelle la fonction et affiche la valeur maximale
 
 
 // Depracated
