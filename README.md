@@ -606,6 +606,235 @@ int main() {
 ```
 - strlen(str) : Cette fonction prend un pointeur vers une chaîne et retourne sa longueur (le nombre de caractères avant le caractère nul).
 
+# Caractères et chaine de caractères en C
+En C, la manipulation de texte est fondamentale, mais elle fonctionne différemment des langages plus modernes. Il est crucial de bien comprendre les bases.
+
+## Partie 1 : Le Type char (Le Caractère Unique)
+
+### Qu'est-ce qu'un char ?
+- En C, le type char est le plus petit type de données entier. Il est conçu pour stocker un seul caractère.
+- Techniquement, il stocke une valeur numérique (généralement sur 8 bits, soit 1 octet). Cette valeur numérique correspond à un caractère selon un jeu de caractères (le plus souvent ASCII ou un de ses dérivés comme UTF-8 pour les caractères plus modernes).
+- Par exemple, la valeur 65 représente le caractère 'A', 97 représente 'a', 48 représente '0'.
+
+### Déclaration et initialisation d'un char
+- On déclare une variable de type char comme n'importe quelle autre variable.
+- Pour assigner une valeur caractère littérale, on utilise des apostrophes simples (' ').
+
+```c
+#include <stdio.h> // Pour printf
+
+int main() {
+    char monCaractere;   // Déclaration d'une variable char
+    monCaractere = 'B'; // Initialisation avec le caractère 'B'
+
+    char autreCaractere = '$'; // Déclaration et initialisation en une ligne
+
+    char chiffreCaractere = '7'; // IMPORTANT: '7' (caractère) est différent de 7 (entier)
+
+    // Afficher les caractères avec le format %c
+    printf("Mon caractère : %c\n", monCaractere);
+    printf("Autre caractère : %c\n", autreCaractere);
+    printf("Caractère chiffre : %c\n", chiffreCaractere);
+
+    // On peut aussi voir leur valeur numérique (code ASCII) avec %d
+    printf("Valeur ASCII de %c : %d\n", monCaractere, monCaractere); // Affichera 66 pour 'B'
+    printf("Valeur ASCII de %c : %d\n", chiffreCaractere, chiffreCaractere); // Affichera 55 pour '7'
+
+    return 0;
+}
+```
+
+### Subtilité : char signé ou non signé (signed char / unsigned char)
+ - Par défaut, le fait que char soit signed (peut contenir des valeurs négatives, typiquement -128 à 127) ou unsigned (0 à 255) dépend du compilateur.
+ - Cela a rarement un impact quand on manipule des caractères ASCII standards (0-127), mais peut être important si on utilise des char pour stocker de petites valeurs numériques ou des caractères étendus. Pour la manipulation de texte standard, on utilise généralement char sans se soucier de ce détail au début.
+
+
+## Partie 2 : Les Chaînes comme Tableaux (char nom_tableau[TAILLE];)
+C'est la manière la plus fondamentale de représenter une chaîne de caractères en C.
+
+### Definition
+- Une chaîne de caractères en C n'est pas un type de données unique. C'est un tableau (array) de char.
+- Subtilité CRUCIALE : Pour que C sache où se termine la chaîne dans le tableau, on utilise une convention : la chaîne doit se terminer par un caractère spécial appelé caractère nul ou terminateur nul. Ce caractère est représenté par \0 et a la valeur ASCII 0.
+- Donc, un tableau pour stocker la chaîne "Salut" (5 caractères) doit en réalité avoir une taille d'au moins 6 char pour inclure le \0 final ('S', 'a', 'l', 'u', 't', '\0').
+
+### Déclaration et initialisation
+- Avec une taille fixe et initialisation via une chaîne littérale : Les chaînes littérales en C sont écrites entre guillemets doubles (" "). Le compilateur ajoute automatiquement le \0 final.
+```c
+#include <stdio.h>
+
+int main() {
+    // Déclare un tableau de char assez grand pour "Bonjour" + '\0'
+    // Le compilateur calcule la taille automatiquement (7 + 1 = 8)
+    char salutation[] = "Bonjour";
+
+    // Déclare un tableau avec une taille explicite (doit être >= taille utile + 1)
+    char nom[30] = "Alice"; // Ok, 30 est bien plus grand que 5 + 1
+
+    // Afficher les chaînes avec le format %s
+    printf("Salutation : %s\n", salutation);
+    printf("Nom : %s\n", nom);
+
+    // Accéder aux caractères individuels (comme un tableau normal)
+    printf("Le premier caractère de salutation est : %c\n", salutation[0]); // 'B'
+    printf("Le dernier caractère utile de nom est : %c\n", nom[4]);     // 'e'
+
+    // Le caractère après 'e' est le caractère nul :
+    printf("Le caractère après 'e' (valeur ASCII) : %d\n", nom[5]); // Affichera 0
+
+    return 0;
+}
+```
+
+- Avec une taille fixe et initialisation caractère par caractère : Moins courant, mais montre bien le \0. Il faut ajouter le \0 manuellement !
+```c
+#include <stdio.h>
+
+int main() {
+    char mot[4]; // Taille 4 pour 'O', 'u', 'i', '\0'
+    mot[0] = 'O';
+    mot[1] = 'u';
+    mot[2] = 'i';
+    mot[3] = '\0'; // TRÈS IMPORTANT ! Sans ça, ce n'est pas une chaîne C valide.
+
+    printf("Mot : %s\n", mot); // Affichera "Oui"
+
+    return 0;
+}
+```
+
+### Le Caractère Nul (\0) en Détail
+- Ce n'est PAS le caractère '0' (qui a la valeur ASCII 48). C'est un caractère de contrôle avec la valeur ASCII 0.
+- Toutes les fonctions standards de manipulation de chaînes en C (printf avec %s, strlen, strcpy, etc.) reposent sur la présence de ce \0 pour savoir où s'arrêter.
+- Oublier le \0 (si on construit la chaîne manuellement) est une source fréquente de bugs. La fonction lira la mémoire au-delà de la fin prévue de votre chaîne, menant à des comportements indéfinis (affichage de "déchets", plantage...).
+
+### Accès et Modification des Caractères
+- Comme ce sont des tableaux, on accède aux caractères via leur index (commençant à 0).
+- On peut modifier les caractères d'une chaîne stockée dans un tableau (sauf si le tableau lui-même est const).
+
+```c
+#include <stdio.h>
+
+int main() {
+    char message[] = "Salut !"; // Taille 8 ('S','a','l','u','t',' ','!','\0')
+    printf("Original : %s\n", message);
+
+    message[0] = 'B'; // Change 'S' en 'B'
+    message[5] = '-'; // Change ' ' en '-'
+    // message[7] = '?'; // Attention, message[7] est le '\0'. Le changer "casse" la chaîne.
+                       // Si on veut ajouter, il faut un tableau plus grand au départ.
+
+    printf("Modifié : %s\n", message); // Affichera "Balut-!"
+
+    return 0;
+}
+```
+
+### Limites des Tableaux de Chaînes
+- Taille Fixe : Une fois déclaré (char monTableau[50];), la taille du tableau est fixée à la compilation. On ne peut pas la changer pour y mettre une chaîne plus longue que 49 caractères (+ \0). C'est une limitation majeure. (La solution est l'allocation dynamique de mémoire avec malloc.
+
+- Pas d'Affectation Directe : Après l'initialisation, on ne peut PAS faire ceci :
+```c
+char texte[20] = "Initial";
+// texte = "Nouveau"; // ERREUR DE COMPILATION !
+```
+On ne peut pas assigner un tableau entier à un autre avec =. Il faut copier le contenu 
+```c
+char texte[20] = "Initial";
+strcpy(texte, "Nouveau");
+```
+
+## Partie 3 : Les Chaînes comme Pointeurs (char *nom_pointeur;)
+C'est l'autre façon très courante de manipuler des chaînes, offrant plus de flexibilité mais nécessitant plus d'attention.
+
+### Définition
+- Un char * est un pointeur, c'est-à-dire une variable qui contient l'adresse mémoire du premier caractère (char) de la chaîne.
+- La chaîne elle-même (la séquence de char se terminant par \0) se trouve ailleurs en mémoire.
+- Seul le pointeur est modifiable, pas le contenu : name[0] = 'B'; provoquerait une erreur à l'exécution
+
+### Déclaration et initialisation
+```c
+#include <stdio.h>
+
+int main() {
+    // ptr pointe vers l'adresse du 'H' de la chaîne "Hello"
+    // La chaîne "Hello" est stockée quelque part en mémoire (souvent en lecture seule).
+    const char *ptr = "Hello";
+
+    printf("Chaîne pointée : %s\n", ptr);
+    printf("Adresse mémoire contenue dans ptr : %p\n", (void *)ptr);
+    printf("Premier caractère via le pointeur : %c\n", *ptr); // Déréférencement : donne la valeur à l'adresse
+
+    // On peut changer où pointe le pointeur
+    ptr = "World"; // ptr contient maintenant l'adresse du 'W' de "World"
+    printf("Nouvelle chaîne pointée : %s\n", ptr);
+
+    return 0;
+}
+```
+
+Subtilité TRÈS importante : 
+- Quand un char * pointe vers une chaîne littérale ("comme ceci"), cette chaîne est souvent placée par le compilateur dans une zone mémoire en lecture seule.
+- Essayer de la modifier via le pointeur provoque un comportement indéfini (souvent un plantage). C'est pourquoi on utilise souvent const char * pour indiquer cette intention.
+```c
+const char *message = "Immutable";
+// message[0] = 'X'; // ERREUR ou PLANTAGE ! On ne modifie pas un littéral.
+```
+
+### Pointer vers un tableau de char existant :
+```c
+#include <stdio.h>
+
+int main() {
+    char monTableau[] = "Modifiable";
+    char *pointeurVersTableau = monTableau; // Le pointeur contient l'adresse de monTableau[0]
+
+    printf("Via pointeur: %s\n", pointeurVersTableau);
+
+    // On PEUT modifier via le pointeur, car il pointe vers un tableau modifiable
+    pointeurVersTableau[0] = 'm'; // Équivalent à monTableau[0] = 'm';
+    printf("Tableau modifié via pointeur: %s\n", monTableau); // Affiche "modifiable"
+
+    return 0;
+}
+```
+
+### Différence Cruciale : char s[] = "texte"; vs const char *s = "texte";
+- char s[] = "texte"; : Crée un tableau nommé s sur la pile (stack). Le contenu de "texte" (y compris \0) est copié dans ce tableau. s est modifiable. La taille est fixée par l'initialisation.
+- const char *s = "texte"; : Crée un pointeur nommé s. La chaîne littérale "texte" est stockée ailleurs (zone de données statiques/lecture seule). s contient l'adresse de cette chaîne littérale. On ne doit pas essayer de modifier le contenu via s. On peut par contre faire pointer s vers une autre adresse.
+
+### Utilisation des Pointeurs
+- Les pointeurs sont très utilisés dans les fonctions qui manipulent des chaînes (comme celles de <string.h>).
+- L'arithmétique des pointeurs permet de parcourir la chaîne : ptr++ fait pointer ptr vers le caractère suivant.
+
+## Partie 4 : La Bibliothèque Standard <string.h> (Fonctions Utiles)
+Le C fournit une bibliothèque standard (#include <string.h>) avec des fonctions essentielles pour manipuler ces tableaux/pointeurs de char terminés par \0.
+
+### Obtenir la longueur : strlen(const char *s)
+- Renvoie le nombre de caractères dans s avant le \0.
+- strlen("Bonjour") renvoie 7.
+
+### Copier des chaînes
+- strcpy(char *destination, const char *source) : Copie source (y compris \0) dans destination. DANGEREUX ! Ne vérifie pas la taille de destination. À ÉVITER si possible.
+- strncpy(char *destination, const char *source, size_t n) : Copie au plus n caractères de source vers destination. PLUS SÛR, mais attention, si source a n caractères ou plus, destination ne sera PAS terminée par \0 automatiquement. Il faut souvent l'ajouter manuellement.
+```c
+char dest[10];
+strncpy(dest, "Trop long pour ici", 9); // Copie 9 caractères: "Trop long"
+dest[9] = '\0'; // Ajout manuel indispensable!
+```
+
+- Alternative Sûre : snprintf (de <stdio.h>) est souvent préféré pour copier de manière sûre :
+```c
+char destination[10];
+const char *source = "Un exemple";
+snprintf(destination, sizeof(destination), "%s", source);
+// Garantit que destination est terminée par \0 et ne déborde pas.
+// sizeof(destination) donne la taille totale du buffer (10).
+```
+
+## Partie 5 : 
+## Partie 6 :
+
+
 # Buffer 
 Un buffer est souvent simplement un tableau en mémoire, mais l'important est de comprendre comment il fonctionne dans le contexte des entrées/sorties, et comment il est utilisé pour stocker des données temporairement avant qu'elles ne soient traitées.
 
