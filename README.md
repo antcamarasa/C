@@ -2113,7 +2113,7 @@ int result = p(5);  // Appelle add_one(5) via le pointeur
 Cela aura le même effet que d'appeler directement la fonction add_one(5).
 
 
-# Gestion de la mmemoire
+# Gestion de la memoire
 ## Malloc
 malloc() est utilisé pour allouer dynamiquement un bloc de mémoire sur le tas.
 Syntaxe :
