@@ -822,7 +822,7 @@ strncpy(dest, "Trop long pour ici", 9); // Copie 9 caractères: "Trop long"
 dest[9] = '\0'; // Ajout manuel indispensable!
 ```
 
-- Alternative Sûre : snprintf (de <stdio.h>) est souvent préféré pour copier de manière sûre :
+- Alternative Sûre :  (de <stdio.h>) est souvent préféré pour copier de manière sûre :
 ```c
 char destination[10];
 const char *source = "Un exemple";
@@ -831,9 +831,72 @@ snprintf(destination, sizeof(destination), "%s", source);
 // sizeof(destination) donne la taille totale du buffer (10).
 ```
 
-## Partie 5 : 
-## Partie 6 :
+### Concaténer des chaînes (ajouter à la fin)
+- strcat(char *destination, const char *source) : Ajoute source à la fin de destination. Le premier caractère de source écrase le \0 de destination. DANGEREUX ! Ne vérifie pas si destination est assez grande pour contenir le résultat. À ÉVITER.
+- strncat(char *destination, const char *source, size_t n) : Ajoute au plus n caractères de source à destination. Termine toujours par \0. PLUS SÛR. destination doit être assez grande pour strlen(destination) + n + 1.
 
+### Comparer des chaînes
+- strcmp(const char *s1, const char *s2) : Compare s1 et s2 lexicographiquement (ordre du dictionnaire).
+- Renvoie 0 si s1 et s2 sont identiques.
+- Renvoie une valeur < 0 si s1 vient avant s2.
+- Renvoie une valeur > 0 si s1 vient après s2.
+strncmp(const char *s1, const char *s2, size_t n) : Compare au plus les n premiers caractères. Utile pour vérifier des préfixes.
+
+### Chercher dans une chaîne
+- strchr(const char *s, int c) : Cherche la première occurrence du caractère c dans s. Renvoie un pointeur vers cette occurrence, ou NULL si non trouvé.
+- strstr(const char *haystack, const char *needle) : Cherche la première occurrence de la sous-chaîne needle dans haystack. Renvoie un pointeur vers le début de l'occurrence, ou NULL.
+
+### Focus sécurité : Le dépassement de Tampon(buffer overflow)
+- C'est LE danger principal avec les chaînes en C.
+- Si vous écrivez (avec strcpy, strcat, scanf non contrôlé, etc.) plus de données dans un tableau (buffer) qu'il ne peut en contenir, vous écrasez la mémoire qui se trouve après ce tableau.
+- Conséquences : corruption de données d'autres variables, plantage du programme, et pire, failles de sécurité exploitables par des attaquants.
+- Règle d'or : Toujours connaître la taille de vos buffers de destination et utiliser des fonctions qui respectent cette taille (strncpy, snprintf, strncat, fgets).
+
+  
+## Partie 5 : Lire les entrées utilisateurs : scanf, fgets
+- scanf("%s", buffer) : Lit une séquence de caractères depuis l'entrée standard jusqu'au premier espace blanc (espace,  tabulation, nouvelle ligne). EXTRÊMEMENT DANGEREUX ! Ne connaît pas la taille de buffer et provoquera un dépassement de tampon si l'utilisateur tape plus de caractères que buffer ne peut en contenir (sans compter le \0).
+
+- Pour sécuriser scanf (partiellement) : On peut spécifier une largeur maximale : scanf("%19s", buffer); lira au maximum 19 caractères dans buffer (qui doit avoir une taille d'au moins 20 pour le \0). C'est mieux, mais scanf reste délicat (gestion des espaces, etc.).
+
+- fgets(char *buffer, int taille, FILE *stream) : LA MÉTHODE RECOMMANDÉE ET SÛRE.
+  - Lit une ligne entière (y compris les espaces) depuis un flux (stream, souvent stdin pour le clavier).
+  - Lit au maximum taille - 1 caractères et stocke le résultat dans buffer.
+  - Ajoute toujours un \0 final.
+  - S'arrête à la fin de ligne (\n) ou quand taille - 1 caractères sont lus.
+  - Subtilité : fgets conserve le caractère de nouvelle ligne (\n) dans le buffer s'il y a assez de place. Il faut souvent le supprimer manuellement si on n'en veut pas.
+```c
+#include <stdio.h>
+#include <string.h> // Pour strcspn ou strlen
+
+int main() {
+    char nomUtilisateur[50]; // Buffer de 50 chars
+
+    printf("Entrez votre nom (max 49 car.) : ");
+
+    // Lire depuis l'entrée standard (clavier) dans nomUtilisateur, max 50 octets
+    if (fgets(nomUtilisateur, sizeof(nomUtilisateur), stdin) != NULL) {
+
+        // Enlever le '\n' final si présent
+        // strcspn cherche l'index du premier caractère qui est dans la chaîne fournie ("\n" ici)
+        nomUtilisateur[strcspn(nomUtilisateur, "\n")] = '\0';
+
+        // Ou alternative pour enlever le '\n'
+        /*
+        size_t len = strlen(nomUtilisateur);
+        if (len > 0 && nomUtilisateur[len - 1] == '\n') {
+            nomUtilisateur[len - 1] = '\0';
+        }
+        */
+
+        printf("Bonjour, %s !\n", nomUtilisateur);
+
+    } else {
+        printf("Erreur de lecture.\n");
+    }
+
+    return 0;
+}
+``` 
 
 # Buffer 
 Un buffer est souvent simplement un tableau en mémoire, mais l'important est de comprendre comment il fonctionne dans le contexte des entrées/sorties, et comment il est utilisé pour stocker des données temporairement avant qu'elles ne soient traitées.
