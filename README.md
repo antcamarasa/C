@@ -1,3 +1,174 @@
+# 🧱 Roadmap C – 8 semaines pour devenir un développeur back-end solide
+
+> Objectif : Maîtriser la logique, les structures de données et l’algorithmie en C pour construire une base indestructible en développement back-end moderne (Java, Go, C++, etc.).
+
+---
+
+https://www.w3resource.com/c-programming-exercises
+## ✅ Semaine 1 – C de zéro
+
+### 🎯 Objectifs :
+- Comprendre la syntaxe de base
+- Maîtriser les types primitifs, conditions, boucles et fonctions
+
+### 📚 À apprendre :
+- `int`, `float`, `char`
+- `printf`, `scanf`
+- `if`, `else`, `switch`, `for`, `while`
+- Fonctions de base : `void`, `return`, paramètres
+
+### 🛠 Exos à faire :
+- Ref liens ci-dessus 
+- Calculatrice simple
+- Convertisseur (km ⇄ miles, C° ⇄ F°)
+- Affichage conditionnel
+
+---
+
+## ✅ Semaine 2 – Tableaux, pointeurs, fonctions
+
+### 🎯 Objectifs :
+- Comprendre l'adresse mémoire
+- Manipuler des pointeurs
+- Savoir passer des arguments par référence
+
+### 📚 À apprendre :
+- `*`, `&`, passage par adresse
+- Tableaux statiques
+- Fonctions avec pointeurs
+
+### 🛠 Exos à faire :
+- Réimplémenter `strlen`, `strcpy`
+- Inverser un tableau
+- Échanger deux variables par adresse
+
+---
+
+## ✅ Semaine 3 – Allocation dynamique & `struct`
+
+### 🎯 Objectifs :
+- Utiliser `struct` pour créer ses propres types
+- Gérer la mémoire dynamique (`malloc`, `free`)
+
+### 📚 À apprendre :
+- `typedef struct`
+- `malloc`, `calloc`, `free`
+- Tableaux dynamiques
+
+### 🛠 Exos à faire :
+- Créer une struct `User`
+- Implémenter un tableau dynamique (`push`, `pop`)
+- CRUD sur une liste d’utilisateurs
+
+---
+
+## ✅ Semaine 4 – Chaînes, fichiers, découplage du code
+
+### 🎯 Objectifs :
+- Lire et écrire dans des fichiers
+- Manipuler des chaînes de caractères
+- Organiser le code proprement (`.h` + `.c`)
+
+### 📚 À apprendre :
+- `fopen`, `fprintf`, `fscanf`, `fclose`
+- `strtok`, `strcmp`, `fgets`
+- Headers, modularité, Makefile basique
+
+### 🛠 Exos à faire :
+- Programme de contacts sauvegardés en `.txt`
+- Séparateur CSV manuel
+- CRUD modulaire avec séparation `.h` / `.c`
+
+---
+
+## ✅ Semaine 5 – Listes chaînées et piles (stack)
+
+### 🎯 Objectifs :
+- Comprendre les listes dynamiques
+- Implémenter une pile avec les pointeurs
+
+### 📚 À apprendre :
+- Liste simple : `Node`, `next`
+- Stack : `push`, `pop`, `peek`
+
+### 🛠 Exos à faire :
+- Liste chaînée avec `insert`, `delete`, `print`
+- Vérification de parenthèses équilibrées
+- Inverser une stack
+
+---
+
+## ✅ Semaine 6 – Files, arbres binaires et récursion
+
+### 🎯 Objectifs :
+- Implémenter une file (queue FIFO)
+- Comprendre et pratiquer la récursion
+- Construire et parcourir un arbre binaire
+
+### 📚 À apprendre :
+- Queue avec pointeurs
+- Récursivité (`factorielle`, `fibonacci`)
+- Arbres : `insert`, `search`, parcours `in-order`, `pre-order`, `post-order`
+
+### 🛠 Exos à faire :
+- Implémenter un arbre binaire de recherche (BST)
+- Somme des feuilles
+- Parcours récursifs
+
+---
+
+## ✅ Semaine 7 – Hachage, tris, recherches
+
+### 🎯 Objectifs :
+- Créer une table de hachage simple
+- Maîtriser les algos classiques de tri/recherche
+- Comprendre la complexité
+
+### 📚 À apprendre :
+- Hash table avec chaînes ou open addressing
+- Algorithmes : `bubble`, `insertion`, `selection`, `merge`, `quick`
+- Recherche linéaire / binaire
+
+### 🛠 Exos à faire :
+- Implémenter `merge sort`
+- Créer une table de hachage avec collisions
+- Comparaison de performances des algos
+
+---
+
+## ✅ Semaine 8 – Graphes + Projet final
+
+### 🎯 Objectifs :
+- Comprendre les structures de graphe
+- Implémenter DFS, BFS
+- Réaliser un projet complet modulaire
+
+### 📚 À apprendre :
+- Graphe orienté et non orienté (liste d’adjacence)
+- DFS et BFS récursifs / itératifs
+- Projet en C avec `main.c`, `modules`, `Makefile`, `README`
+
+### 💻 Projet final :
+- CRUD utilisateurs (struct + fichiers)
+- Recherche par ID ou nom
+- Tri et pagination
+- Export dans fichier
+- Organisation modulaire (`.h` / `.c`)
+- Compilation avec `Makefile`
+
+---
+
+## 🏁 En fin de roadmap :
+✔️ Tu penses comme un développeur système  
+✔️ Tu es à l’aise avec la mémoire, les pointeurs, les structures  
+✔️ Tu peux aborder n’importe quel langage avec confiance (Java, Go, C++, Rust…)
+
+---
+
+> 🧠 "Celui qui maîtrise le C n’a pas juste appris un langage. Il a appris à penser comme une machine."
+
+
+
 ## Table des Matières
 * [Octal, Binary, Hexadecimals & More](#octal-binary-hexadeciaml-&-more)
 * [C Strucuture d'un programme](#c-structure-programme)
@@ -39,6 +210,12 @@
 * [Organisation des dossiers](#organisation-des-dossiers-du-projet)
 * [Structure du projet](#structure-du-projet)
 * [Script](#script)
+
+
+
+
+
+
 	
 # Octal Binary Hexadeciaml & more
 
